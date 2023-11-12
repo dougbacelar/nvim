@@ -15,5 +15,9 @@ return require('packer').startup(function(use)
   }
 
   use {
+
+  -- color theme
+  use { "catppuccin/nvim", as = "catppuccin" }
+
 end)
 
