@@ -22,5 +22,12 @@ return require('packer').startup(function(use)
   -- color theme
   use { "catppuccin/nvim", as = "catppuccin" }
 
+  -- git ui
+  use('tpope/vim-fugitive')
+
+  -- git browse to gitlab with :GBrowse
+  use('shumphrey/fugitive-gitlab.vim')
+  vim.g.fugitive_gitlab_domains = {'https://gitlab.test.com/'}
+
 end)
 
