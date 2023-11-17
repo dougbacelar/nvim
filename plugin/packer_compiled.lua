@@ -104,6 +104,16 @@ _G.packer_plugins = {
     path = "/Users/douglasbacelar/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["mini.comment"] = {
+    loaded = true,
+    path = "/Users/douglasbacelar/.local/share/nvim/site/pack/packer/start/mini.comment",
+    url = "https://github.com/echasnovski/mini.comment"
+  },
+  ["mini.misc"] = {
+    loaded = true,
+    path = "/Users/douglasbacelar/.local/share/nvim/site/pack/packer/start/mini.misc",
+    url = "https://github.com/echasnovski/mini.misc"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/Users/douglasbacelar/.local/share/nvim/site/pack/packer/start/nvim-cmp",

@@ -42,5 +42,10 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},
 	  }
   }
+
+  -- setup auto-workspace and restore cursor on file open
+  use 'echasnovski/mini.misc'
+  -- setup commenting from normal mode with 'gcc'
+  use 'echasnovski/mini.comment'
 end)
 
