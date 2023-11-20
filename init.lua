@@ -5,8 +5,8 @@
 vim.g.mapleader = " "
 -- decrease update time, I think default is 4 seconds. should make plugins respond quicker if they wait for update events
 vim.o.updatetime = 250
--- decrease timeout for keybinds, should make shortcuts snappier but potentially harder to press.
-vim.o.timeoutlen = 400
+-- decrease timeout for keybinds, should make shortcuts snappier but potentially harder to press. (also affects which-key plugin)
+vim.o.timeoutlen = 300
 -- save undo history on disk even after closing file.
 vim.o.undofile = true
 
@@ -99,10 +99,12 @@ require("lazy").setup({
 		"VonHeikemen/lsp-zero.nvim",
 		dependencies = {
 			--- use mason to manage LSP servers from neovim
+			-- type :Mason to see everything currently installed
 			{'williamboman/mason.nvim'},
 			{'williamboman/mason-lspconfig.nvim'},
 
 			-- LSP Support
+			-- type :LspInstall in a file to install lsp for that file type
 			{'neovim/nvim-lspconfig'},
 			-- Autocompletion
 			{'hrsh7th/nvim-cmp'},
@@ -121,7 +123,7 @@ require("lazy").setup({
 			require('mason-lspconfig').setup({
 				-- Replace the language servers listed here
 				-- with the ones you want to install
-				ensure_installed = {'tsserver'},
+				ensure_installed = {'lua-language-server', 'tsserver'},
 				handlers = {
 					lsp_zero.default_setup,
 				},
@@ -129,7 +131,7 @@ require("lazy").setup({
 		end
 	},
 
-	-- git ui
+	-- git ui. type :G to open. or :help fugitive for docs
 	{ "tpope/vim-fugitive" },
 
 	-- setup auto-workspace and restore cursor on file open
