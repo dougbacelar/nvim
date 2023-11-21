@@ -123,7 +123,7 @@ require("lazy").setup({
 			require('mason-lspconfig').setup({
 				-- Replace the language servers listed here
 				-- with the ones you want to install
-				ensure_installed = {'lua-language-server', 'tsserver'},
+				ensure_installed = {'lua_ls', 'tsserver'},
 				handlers = {
 					lsp_zero.default_setup,
 				},
@@ -200,6 +200,12 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- telescope
 vim.keymap.set('n', '<leader>fg', require('telescope.builtin').git_files, { desc = '[F]ind [G]it Files' })
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
+vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'LSP: [G]oto [D]efinition' })
+vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'LSP: [G]oto [R]eferences' })
+vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_incoming_calls, { desc = 'LSP: [G]oto [I]ncoming Calls' })
+vim.keymap.set('n', 'gO', require('telescope.builtin').lsp_outgoing_calls, { desc = 'LSP: [G]oto [O]utgoing Calls' })
+vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_type_definitions, { desc = 'LSP: Type [D]efinition' })
+vim.keymap.set('n', 'gs', require('telescope.builtin').lsp_document_symbols, { desc = 'LSP: [D]ocument [S]ymbols' })
 -- todo
 -- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
