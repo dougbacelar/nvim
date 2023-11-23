@@ -188,7 +188,25 @@ require("lazy").setup({
 				end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
 			end,
 		},
-	}
+	},
+
+	{
+		-- this "telescope projections" plugin provides a convenient project switcher window
+		-- this project is getting ready for a major release
+		-- need to switch to pre_release branch or upgrade later, annoying notification will be shown until then
+		"gnikdroy/projections.nvim",
+		config = function()
+			require("projections").setup({
+				workspaces = {
+					{"~/dev", {".git"}},
+					{"~/indeed", {".git"}},
+				}
+			})
+
+			require('telescope').load_extension('projections')
+			vim.keymap.set("n", "<leader>fp", function() vim.cmd("Telescope projections") end, { desc = "[F]ind [P]rojects" })
+		end
+	}	
 })
 
 ----
