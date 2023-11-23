@@ -90,7 +90,25 @@ require("lazy").setup({
 	-- fuzzy finding files and stuff
 	{
 		'nvim-telescope/telescope.nvim', tag = '0.1.4',
-		dependencies = { 'nvim-lua/plenary.nvim' },
+		dependencies = { 
+			'nvim-lua/plenary.nvim',
+			{ 'nvim-telescope/telescope-project.nvim' }
+		},
+		config = function()
+			require('telescope').load_extension('project')
+			require('telescope').setup {
+				extensions = {
+					project = {
+						base_dirs = {
+							'~/dev',
+							'~/.config/nvim', 
+							'~/indeed',
+						}
+					}
+				}
+
+			}
+		end
 
 	},
 
@@ -190,25 +208,26 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		-- this "telescope projections" plugin provides a convenient project switcher window
-		-- this project is getting ready for a major release
-		-- need to switch to pre_release branch or upgrade later, annoying notification will be shown until then
-		"gnikdroy/projections.nvim",
-		config = function()
-			require("projections").setup({
-				workspaces = {
-					{"~/dev", {".git"}},
-					{"~/indeed", {".git"}},
-				}
-			})
-
-			require('telescope').load_extension('projections')
-			vim.keymap.set("n", "<leader>fp", function() vim.cmd("Telescope projections") end, { desc = "[F]ind [P]rojects" })
-		end
-	}	
+	--
+	-- {
+	-- 	-- this "telescope projections" plugin provides a convenient project switcher window
+	-- 	-- this project is getting ready for a major release
+	-- 	-- need to switch to pre_release branch or upgrade later, annoying notification will be shown until then
+	-- 	"gnikdroy/projections.nvim",
+	-- 	config = function()
+	-- 		require("projections").setup({
+	-- 			workspaces = {
+	-- 				{"~/dev", {".git"}},
+	-- 				{"~/indeed", {".git"}},
+	-- 			}
+	-- 		})
+	--
+	-- 		require('telescope').load_extension('projections')
+	-- 		vim.keymap.set("n", "<leader>fp", function() vim.cmd("Telescope projections") end, { desc = "[F]ind [P]rojects" })
+	-- 	end
+	-- }	
 })
-
+require'telescope'.load_extension('project')
 ----
 -- Key maps
 ----
@@ -218,6 +237,7 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- telescope
 vim.keymap.set('n', '<leader>fg', require('telescope.builtin').git_files, { desc = '[F]ind [G]it Files' })
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
+vim.keymap.set('n', '<leader>fp',"<cmd>lua require'telescope'.extensions.project.project{}<cr>" , {desc = "[F]ind [P]rojects" })
 vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'LSP: [G]oto [D]efinition' })
 vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'LSP: [G]oto [R]eferences' })
 vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_incoming_calls, { desc = 'LSP: [G]oto [I]ncoming Calls' })
