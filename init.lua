@@ -34,35 +34,57 @@ vim.opt.rtp:prepend(lazypath)
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
 	callback = function()
 		if vim.bo.modified and not vim.bo.readonly and vim.fn.expand("%") ~= "" and vim.bo.buftype == "" then
-			vim.api.nvim_command('silent update')
+			vim.api.nvim_command("silent update")
 		end
 	end,
 })
+
+-- -- setup auto formatting with lsp
+-- local function format_code()
+--     if vim.lsp.buf.server_ready() then
+--         vim.lsp.buf.format({ async = false }) -- setting async to false to prevent formatting finishing after the auto save
+--     end
+-- end
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     callback = format_code
+-- })
 
 ----
 -- Plugins
 ----
 require("lazy").setup({
 	-- the color theme
-	{ 
-		"catppuccin/nvim", name = "catppuccin", priority = 1000, 
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
 				transparent_background = true, -- disables setting the background color.
 			})
 			vim.cmd.colorscheme("catppuccin-mocha")
-		end 
+		end,
 	},
 
 	-- AST, syntax highlighting and stuff
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		config = function () 
+		config = function()
 			require("nvim-treesitter.configs").setup({
 				-- A list of parser names, or "all" (the five listed parsers should always be installed)
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "java", "kotlin" },
+				ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"vimdoc",
+					"query",
+					"javascript",
+					"typescript",
+					"java",
+					"kotlin",
+				},
 
 				-- Install parsers synchronously (only applied to `ensure_installed`)
 				sync_install = false,
@@ -82,34 +104,33 @@ require("lazy").setup({
 					-- Using this option may slow down your editor, and you may see some duplicate highlights.
 					-- Instead of true it can also be a list of languages
 					additional_vim_regex_highlighting = false,
-				}
-			})	
-		end
+				},
+			})
+		end,
 	},
 
 	-- fuzzy finding files and stuff
 	{
-		'nvim-telescope/telescope.nvim', tag = '0.1.4',
-		dependencies = { 
-			'nvim-lua/plenary.nvim',
-			{ 'nvim-telescope/telescope-project.nvim' }
-		},
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.4",
+		-- hi
+		-- --
+
+		dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-project.nvim" } },
 		config = function()
-			require('telescope').load_extension('project')
-			require('telescope').setup {
+			require("telescope").load_extension("project")
+			require("telescope").setup({
 				extensions = {
 					project = {
 						base_dirs = {
-							'~/dev',
-							'~/.config/nvim', 
-							'~/indeed',
-						}
-					}
-				}
-
-			}
-		end
-
+							"~/dev",
+							"~/.config/nvim",
+							"~/indeed",
+						},
+					},
+				},
+			})
+		end,
 	},
 
 	-- language server protocol stuff
@@ -118,116 +139,130 @@ require("lazy").setup({
 		dependencies = {
 			--- use mason to manage LSP servers from neovim
 			-- type :Mason to see everything currently installed
-			{'williamboman/mason.nvim'},
-			{'williamboman/mason-lspconfig.nvim'},
+			{ "williamboman/mason.nvim" },
+			{ "williamboman/mason-lspconfig.nvim" },
 
 			-- LSP Support
 			-- type :LspInstall in a file to install lsp for that file type
-			{'neovim/nvim-lspconfig'},
+			{ "neovim/nvim-lspconfig" },
 			-- Autocompletion
-			{'hrsh7th/nvim-cmp'},
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'L3MON4D3/LuaSnip'},
+			{ "hrsh7th/nvim-cmp" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "L3MON4D3/LuaSnip" },
 		},
 		config = function()
-			local lsp_zero = require('lsp-zero')
+			local lsp_zero = require("lsp-zero")
 
 			lsp_zero.on_attach(function(client, bufnr)
 				-- see :help lsp-zero-keybindings
 				-- to learn the available actions
-				lsp_zero.default_keymaps({buffer = bufnr})
+				lsp_zero.default_keymaps({ buffer = bufnr })
 			end)
-			require('mason').setup({})
-			require('mason-lspconfig').setup({
+			require("mason").setup({})
+			require("mason-lspconfig").setup({
 				-- Replace the language servers listed here
 				-- with the ones you want to install
-				ensure_installed = {'lua_ls', 'tsserver'},
+				ensure_installed = { "lua_ls", "tsserver" },
 				handlers = {
 					lsp_zero.default_setup,
 				},
 			})
-		end
+		end,
+	},
+
+	-- setup lsp formatters
+	{
+		"stevearc/conform.nvim",
+		log_level = vim.log.levels.DEBUG,
+		dependencies = { "mason.nvim", "VonHeikemen/lsp-zero.nvim" },
+		event = { "BufWritePre", "BufReadPre", "BufNewFile" },
+		cmd = { "ConformInfo" },
+		opts = {},
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- conform will run multiple formatters sequentially
+					python = { "isort", "black" },
+					-- use a sub-list to run only the first available formatter
+					javascript = { { "prettierd", "prettier" } },
+				},
+
+				fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 15000 },
+			})
+			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+				require("conform").format({ async = false })
+			end, { desc = "test formatter" })
+		end,
 	},
 
 	-- git ui. type :G to open. or :help fugitive for docs
 	{ "tpope/vim-fugitive" },
 
 	-- setup auto-workspace and restore cursor on file open
-	{ "echasnovski/mini.misc",
-	config = function()
-		require('mini.misc').setup()
-		-- sets the workspace when you open a project file so telescope works better
-		MiniMisc.setup_auto_root()
+	{
+		"echasnovski/mini.misc",
+		config = function()
+			require("mini.misc").setup()
+			-- sets the workspace when you open a project file so telescope works better
+			MiniMisc.setup_auto_root()
 
-		-- restore the cursor upon reopening file!
-		MiniMisc.setup_restore_cursor()
-	end},
+			-- restore the cursor upon reopening file!
+			MiniMisc.setup_restore_cursor()
+		end,
+	},
 
-	-- setup commenting from normal mode with 'gcc'	
+	-- setup commenting from normal mode with 'gcc'
 	{ "echasnovski/mini.comment", config = true },
 
 	-- useful plugin to show you pending keybinds.
-	{ 'folke/which-key.nvim', opts = {} },
+	{ "folke/which-key.nvim", opts = {} },
 
 	{
 		-- adds git related signs to the gutter, as well as utilities for managing changes
-		'lewis6991/gitsigns.nvim',
+		"lewis6991/gitsigns.nvim",
 		opts = {
 			-- See `:help gitsigns.txt`
 			signs = {
-				add = { text = '+' },
-				change = { text = '~' },
-				delete = { text = '_' },
-				topdelete = { text = '‾' },
-				changedelete = { text = '~' },
+				add = { text = "+" },
+				change = { text = "~" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
 			},
 			on_attach = function(bufnr)
-				vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+				vim.keymap.set(
+					"n",
+					"<leader>hp",
+					require("gitsigns").preview_hunk,
+					{ buffer = bufnr, desc = "Preview git hunk" }
+				)
 
 				-- don't override the built-in and fugitive keymaps
 				local gs = package.loaded.gitsigns
-				vim.keymap.set({ 'n', 'v' }, ']c', function()
+				vim.keymap.set({ "n", "v" }, "]c", function()
 					if vim.wo.diff then
-						return ']c'
+						return "]c"
 					end
 					vim.schedule(function()
 						gs.next_hunk()
 					end)
-					return '<Ignore>'
-				end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
-				vim.keymap.set({ 'n', 'v' }, '[c', function()
+					return "<Ignore>"
+				end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+				vim.keymap.set({ "n", "v" }, "[c", function()
 					if vim.wo.diff then
-						return '[c'
+						return "[c"
 					end
 					vim.schedule(function()
 						gs.prev_hunk()
 					end)
-					return '<Ignore>'
-				end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
+					return "<Ignore>"
+				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
 			end,
 		},
 	},
-
-	--
-	-- {
-	-- 	-- this "telescope projections" plugin provides a convenient project switcher window
-	-- 	-- this project is getting ready for a major release
-	-- 	-- need to switch to pre_release branch or upgrade later, annoying notification will be shown until then
-	-- 	"gnikdroy/projections.nvim",
-	-- 	config = function()
-	-- 		require("projections").setup({
-	-- 			workspaces = {
-	-- 				{"~/dev", {".git"}},
-	-- 				{"~/indeed", {".git"}},
-	-- 			}
-	-- 		})
-	--
-	-- 		require('telescope').load_extension('projections')
-	-- 		vim.keymap.set("n", "<leader>fp", function() vim.cmd("Telescope projections") end, { desc = "[F]ind [P]rojects" })
-	-- 	end
-	-- }	
 })
-require'telescope'.load_extension('project')
+
 ----
 -- Key maps
 ----
@@ -235,15 +270,20 @@ require'telescope'.load_extension('project')
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- telescope
-vim.keymap.set('n', '<leader>fg', require('telescope.builtin').git_files, { desc = '[F]ind [G]it Files' })
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
-vim.keymap.set('n', '<leader>fp',"<cmd>lua require'telescope'.extensions.project.project{}<cr>" , {desc = "[F]ind [P]rojects" })
-vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'LSP: [G]oto [D]efinition' })
-vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'LSP: [G]oto [R]eferences' })
-vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_incoming_calls, { desc = 'LSP: [G]oto [I]ncoming Calls' })
-vim.keymap.set('n', 'gO', require('telescope.builtin').lsp_outgoing_calls, { desc = 'LSP: [G]oto [O]utgoing Calls' })
-vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_type_definitions, { desc = 'LSP: Type [D]efinition' })
-vim.keymap.set('n', 'gs', require('telescope.builtin').lsp_document_symbols, { desc = 'LSP: [D]ocument [S]ymbols' })
+vim.keymap.set("n", "<leader>fg", require("telescope.builtin").git_files, { desc = "[F]ind [G]it Files" })
+vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
+vim.keymap.set(
+	"n",
+	"<leader>fp",
+	"<cmd>lua require'telescope'.extensions.project.project{}<cr>",
+	{ desc = "[F]ind [P]rojects" }
+)
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "LSP: [G]oto [D]efinition" })
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "LSP: [G]oto [R]eferences" })
+vim.keymap.set("n", "gI", require("telescope.builtin").lsp_incoming_calls, { desc = "LSP: [G]oto [I]ncoming Calls" })
+vim.keymap.set("n", "gO", require("telescope.builtin").lsp_outgoing_calls, { desc = "LSP: [G]oto [O]utgoing Calls" })
+vim.keymap.set("n", "gD", require("telescope.builtin").lsp_type_definitions, { desc = "LSP: Type [D]efinition" })
+vim.keymap.set("n", "gs", require("telescope.builtin").lsp_document_symbols, { desc = "LSP: [D]ocument [S]ymbols" })
 -- todo
 -- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
