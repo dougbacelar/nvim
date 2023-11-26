@@ -41,21 +41,11 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
 				async = false,
 				timeout_ms = 500,
 			})
-
+			-- write the file (:w)
 			vim.api.nvim_command("silent update")
 		end
 	end,
 })
-
--- -- setup auto formatting with lsp
--- local function format_code()
---     if vim.lsp.buf.server_ready() then
---         vim.lsp.buf.format({ async = false }) -- setting async to false to prevent formatting finishing after the auto save
---     end
--- end
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     callback = format_code
--- })
 
 ----
 -- Plugins
