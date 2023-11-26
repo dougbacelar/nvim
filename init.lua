@@ -205,25 +205,6 @@ require("lazy").setup({
 	-- git ui. type :G to open. or :help fugitive for docs
 	{ "tpope/vim-fugitive" },
 
-	-- setup auto-workspace and restore cursor on file open
-	{
-		"echasnovski/mini.misc",
-		config = function()
-			require("mini.misc").setup()
-			-- sets the workspace when you open a project file so telescope works better
-			MiniMisc.setup_auto_root()
-
-			-- restore the cursor upon reopening file!
-			MiniMisc.setup_restore_cursor()
-		end,
-	},
-
-	-- setup commenting from normal mode with 'gcc'
-	{ "echasnovski/mini.comment", config = true },
-
-	-- useful plugin to show you pending keybinds.
-	{ "folke/which-key.nvim", opts = {} },
-
 	{
 		-- adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
@@ -243,7 +224,6 @@ require("lazy").setup({
 					require("gitsigns").preview_hunk,
 					{ buffer = bufnr, desc = "Preview git hunk" }
 				)
-
 				-- don't override the built-in and fugitive keymaps
 				local gs = package.loaded.gitsigns
 				vim.keymap.set({ "n", "v" }, "]c", function()
@@ -267,6 +247,25 @@ require("lazy").setup({
 			end,
 		},
 	},
+
+	-- setup auto-workspace and restore cursor on file open
+	{
+		"echasnovski/mini.misc",
+		config = function()
+			require("mini.misc").setup()
+			-- sets the workspace when you open a project file so telescope works better
+			MiniMisc.setup_auto_root()
+
+			-- restore the cursor upon reopening file!
+			MiniMisc.setup_restore_cursor()
+		end,
+	},
+
+	-- setup commenting from normal mode with 'gcc'
+	{ "echasnovski/mini.comment", config = true },
+
+	-- useful plugin to show you pending keybinds.
+	{ "folke/which-key.nvim", opts = {} },
 })
 
 ----
