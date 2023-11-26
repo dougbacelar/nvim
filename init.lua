@@ -171,7 +171,6 @@ require("lazy").setup({
 	-- setup lsp formatters
 	{
 		"stevearc/conform.nvim",
-		log_level = vim.log.levels.DEBUG,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local conform = require("conform")
