@@ -32,8 +32,16 @@ vim.opt.rtp:prepend(lazypath)
 ----
 -- setup auto save
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
-	callback = function()
+	callback = function(args)
 		if vim.bo.modified and not vim.bo.readonly and vim.fn.expand("%") ~= "" and vim.bo.buftype == "" then
+			-- only way to get format working with auto save is having it in the same autocmd, consider removing it later
+			require("conform").format({
+				bufnr = args.buf,
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 500,
+			})
+
 			vim.api.nvim_command("silent update")
 		end
 	end,
@@ -174,12 +182,10 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		log_level = vim.log.levels.DEBUG,
-		dependencies = { "mason.nvim", "VonHeikemen/lsp-zero.nvim" },
-		event = { "BufWritePre", "BufReadPre", "BufNewFile" },
-		cmd = { "ConformInfo" },
-		opts = {},
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			require("conform").setup({
+			local conform = require("conform")
+			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					-- conform will run multiple formatters sequentially
@@ -187,12 +193,14 @@ require("lazy").setup({
 					-- use a sub-list to run only the first available formatter
 					javascript = { { "prettierd", "prettier" } },
 				},
-
-				fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 15000 },
+				-- format on save is not working due to auto save, moved format code to auto-save autocmd
+				-- fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 500 },
 			})
+
+			-- keep this keymap as a fallback for now just in case the autocmd doesn't work
 			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-				require("conform").format({ async = false })
-			end, { desc = "test formatter" })
+				conform.format({ async = false })
+			end, { desc = "[M]ake [P]rettier" })
 		end,
 	},
 
