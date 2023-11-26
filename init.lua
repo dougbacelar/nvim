@@ -123,6 +123,7 @@ require("lazy").setup({
 						base_dirs = {
 							"~/dev",
 							"~/.config/nvim",
+							"~/.config/wezterm",
 							"~/indeed",
 						},
 					},
