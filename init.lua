@@ -192,6 +192,15 @@ require("lazy").setup({
 					python = { "isort", "black" },
 					-- use a sub-list to run only the first available formatter
 					javascript = { { "prettierd", "prettier" } },
+					typescript = { { "prettierd", "prettier" } },
+					javascriptreact = { { "prettierd", "prettier" } },
+					typescriptreact = { { "prettierd", "prettier" } },
+					css = { { "prettierd", "prettier" } },
+					html = { { "prettierd", "prettier" } },
+					json = { { "prettierd", "prettier" } },
+					yaml = { { "prettierd", "prettier" } },
+					markdown = { { "prettierd", "prettier" } },
+					graphql = { { "prettierd", "prettier" } },
 				},
 				-- format on save is not working due to auto save, moved format code to auto-save autocmd
 				-- fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 500 },
