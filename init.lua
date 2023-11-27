@@ -203,8 +203,11 @@ require("lazy").setup({
 		end,
 	},
 
+	-- detect tabstop and shiftwidth automatically
+	"tpope/vim-sleuth",
+
 	-- git ui. type :G to open. or :help fugitive for docs
-	{ "tpope/vim-fugitive" },
+	"tpope/vim-fugitive",
 
 	{
 		-- adds git related signs to the gutter, as well as utilities for managing changes
