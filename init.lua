@@ -294,15 +294,13 @@ vim.keymap.set("n", "gO", require("telescope.builtin").lsp_outgoing_calls, { des
 vim.keymap.set("n", "gD", require("telescope.builtin").lsp_type_definitions, { desc = "LSP: Type [D]efinition" })
 vim.keymap.set("n", "gs", require("telescope.builtin").lsp_document_symbols, { desc = "LSP: [D]ocument [S]ymbols" })
 -- todo
--- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[F]ind by live [G]rep" })
+vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
 -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
--- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 -- vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
--- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 -- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
--- vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[F]ind Buffers"})
 -- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
--- vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
 --
