@@ -46,7 +46,6 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
 		end
 	end,
 })
-
 ----
 -- Plugins
 ----
@@ -164,6 +163,12 @@ require("lazy").setup({
 				ensure_installed = { "lua_ls", "tsserver" },
 				handlers = {
 					lsp_zero.default_setup,
+					lua_ls = function()
+						-- https://www.reddit.com/r/neovim/comments/114wlhj/comment/j90sfbw
+						-- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/neovim-lua-ls.md#fixed-config
+						local lua_opts = lsp_zero.nvim_lua_ls()
+						require("lspconfig").lua_ls.setup(lua_opts)
+					end,
 				},
 			})
 		end,
@@ -301,6 +306,6 @@ vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { de
 -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 -- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[F]ind Buffers"})
+vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[F]ind Buffers" })
 -- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 --
