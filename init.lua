@@ -315,12 +315,56 @@ vim.keymap.set(
 	"<cmd>lua require'telescope'.extensions.project.project{}<cr>",
 	{ desc = "[F]ind [P]rojects" }
 )
+
+-- lsp
+-- Jump to the definition of the word under your cursor.
+--  This is where a variable was first declared, or where a function is defined, etc.
+--  To jump back, press <C-T>.
 vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "LSP: [G]oto [D]efinition" })
+
+-- Find references for the word under your cursor.
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "LSP: [G]oto [R]eferences" })
+
+--
 vim.keymap.set("n", "gI", require("telescope.builtin").lsp_incoming_calls, { desc = "LSP: [G]oto [I]ncoming Calls" })
+
+--
 vim.keymap.set("n", "gO", require("telescope.builtin").lsp_outgoing_calls, { desc = "LSP: [G]oto [O]utgoing Calls" })
+
+-- Jump to the implementation of the word under your cursor.
+--  Useful when your language has ways of declaring types without an actual implementation. Idk how this is different from lsp_incoming_calls
+vim.keymap.set("n", "gP", require("telescope.builtin").lsp_implementations, { desc = "LSP: [G]oto Im[P]lementation" })
+
+-- Jump to the type of the word under your cursor.
+--  Useful when you're not sure what type a variable is and you want to see
+--  the definition of its *type*, not where it was *defined*.
 vim.keymap.set("n", "gD", require("telescope.builtin").lsp_type_definitions, { desc = "LSP: Type [D]efinition" })
-vim.keymap.set("n", "gs", require("telescope.builtin").lsp_document_symbols, { desc = "LSP: [D]ocument [S]ymbols" })
+
+-- Fuzzy find all the symbols in your current document.
+--  Symbols are things like variables, functions, types, etc.
+vim.keymap.set("n", "ds", require("telescope.builtin").lsp_document_symbols, { desc = "LSP: [D]ocument [S]ymbols" })
+
+-- Fuzzy find all the symbols in your current workspace
+--  Similar to document symbols, except searches over your whole project.
+vim.keymap.set(
+	"n",
+	"<leader>ws",
+	require("telescope.builtin").lsp_dynamic_workspace_symbols,
+	{ desc = "LSP: [W]orkspace [S]ymbols" }
+)
+
+-- Rename the variable under your cursor
+--  Most Language Servers support renaming across files, etc.
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: [R]e[n]ame" })
+
+-- Execute a code action, usually your cursor needs to be on top of an error
+-- or a suggestion from your LSP for this to activate.
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: [C]ode [A]ction" })
+
+-- Opens a popup that displays documentation about the word under your cursor
+--  See `:help K` for why this keymap
+vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation" })
+
 -- todo
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[F]ind by live [G]rep" })
 vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
