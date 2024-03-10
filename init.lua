@@ -163,6 +163,9 @@ require("lazy").setup({
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
 
+			-- Useful status updates for LSP.
+			{ "j-hui/fidget.nvim", opts = {} },
+
 			-- LSP Support
 			-- type :LspInstall in a file to install lsp for that file type
 			{ "neovim/nvim-lspconfig" },
