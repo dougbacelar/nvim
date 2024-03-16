@@ -25,15 +25,16 @@ vim.opt.smartcase = true
 --  and :help 'listchars'
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
--- minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 8
 -- highlight current cursor line
 vim.opt.cursorline = true
+-- minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 8
 
 ----
 -- Bootstrap plugin manager
 ----
--- setup lazy.nvim to manage plugin dependencies https://github.com/folke/lazy.nvim
+-- setup lazy.nvim to manage plugin dependencies
+-- See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -72,7 +73,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	group = vim.api.nvim_create_augroup("doug-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank({ timeout = 200 })
 	end,
@@ -81,6 +82,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 ----
 -- Plugins
 ----
+--  To check the current status of your plugins, run
+--    :Lazy
+--  You can press `?` in this menu for help. Use `:q` to close the window
+--  To update plugins, you can run
+--    :Lazy update
 require("lazy").setup({
 	-- the color theme
 	{
@@ -137,12 +143,66 @@ require("lazy").setup({
 	-- fuzzy finding files and stuff
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.4",
-		dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-project.nvim" } },
+		event = "VimEnter",
+		branch = "0.1.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-project.nvim" },
+
+			{ -- If encountering errors, see telescope-fzf-native README for install instructions
+				"nvim-telescope/telescope-fzf-native.nvim",
+
+				-- `build` is used to run some command when the plugin is installed/updated.
+				-- This is only run then, not every time Neovim starts up.
+				build = "make",
+
+				-- `cond` is a condition used to determine whether this plugin should be
+				-- installed and loaded.
+				cond = function()
+					return vim.fn.executable("make") == 1
+				end,
+			},
+
+			{ "nvim-telescope/telescope-ui-select.nvim" },
+
+			-- Useful for getting pretty icons, but requires a Nerd Font.
+			{ "nvim-tree/nvim-web-devicons" },
+		},
 		config = function()
-			require("telescope").load_extension("project")
+			-- Telescope is a fuzzy finder that comes with a lot of different things that
+			-- it can fuzzy find! It's more than just a "file finder", it can search
+			-- many different aspects of Neovim, your workspace, LSP, and more!
+			--
+			-- The easiest way to use telescope, is to start by doing something like:
+			--  :Telescope help_tags
+			--
+			-- After running this command, a window will open up and you're able to
+			-- type in the prompt window. You'll see a list of help_tags options and
+			-- a corresponding preview of the help.
+			--
+			-- Two important keymaps to use while in telescope are:
+			--  - Insert mode: <c-/>
+			--  - Normal mode: ?
+			--
+			-- This opens a window that shows you all of the keymaps for the current
+			-- telescope picker. This is really useful to discover what Telescope can
+			-- do as well as how to actually do it!
+
+			-- [[ Configure Telescope ]]
+			-- See `:help telescope` and `:help telescope.setup()`
+			-- require("telescope").load_extension("project")
 			require("telescope").setup({
 				extensions = {
+					-- You can put your default mappings / updates / etc. in here
+					--  All the info you're looking for is in `:help telescope.setup()`
+					--
+					-- defaults = {
+					--   mappings = {
+					--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+					--   },
+					-- },
+					-- pickers = {}
+
 					project = {
 						base_dirs = {
 							"~/dev",
@@ -151,8 +211,16 @@ require("lazy").setup({
 							"~/indeed",
 						},
 					},
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown(),
+					},
 				},
 			})
+
+			-- Enable telescope extensions, if they are installed
+			pcall(require("telescope").load_extension, "project")
+			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "ui-select")
 		end,
 	},
 
@@ -302,7 +370,22 @@ require("lazy").setup({
 	{ "echasnovski/mini.comment", config = true },
 
 	-- useful plugin to show you pending keybinds.
-	{ "folke/which-key.nvim", opts = {} },
+	{
+		"folke/which-key.nvim",
+		event = "VimEnter",
+		config = function()
+			require("which-key").setup()
+
+			-- Document existing key chains
+			require("which-key").register({
+				["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+				["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+				["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
+				["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+				["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+			})
+		end,
+	},
 })
 
 ----
@@ -310,6 +393,13 @@ require("lazy").setup({
 ----
 -- open explorer
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+
+-- window navigation
+-- see `:help wincmd` for a list of all window commands
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- telescope
 vim.keymap.set("n", "<leader>fg", require("telescope.builtin").git_files, { desc = "[F]ind [G]it Files" })
