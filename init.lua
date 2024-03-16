@@ -3,6 +3,8 @@
 ----
 -- make sure to set mapleader before lazy.nvim so the mappings are correct
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- decrease update time, I think default is 4 seconds. should make plugins respond quicker if they wait for update events
 vim.o.updatetime = 250
 -- decrease timeout for keybinds, should make shortcuts snappier but potentially harder to press. (also affects which-key plugin)
