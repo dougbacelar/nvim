@@ -239,6 +239,36 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sn", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "[S]earch [N]eovim files" })
+
+			-- telescope
+			vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "[F]ind [G]it Files" })
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+			vim.keymap.set(
+				"n",
+				"<leader>fp",
+				"<cmd>lua require'telescope'.extensions.project.project{}<cr>",
+				{ desc = "[F]ind [P]rojects" }
+			)
+			-- todo
+			-- vim.keymap.set(
+			-- 	"n",
+			-- 	"<leader>sg",
+			-- 	require("telescope.builtin").live_grep,
+			-- 	{ desc = "[F]ind by live [G]rep" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n",
+			-- 	"<leader>fw",
+			-- 	require("telescope.builtin").grep_string,
+			-- 	{ desc = "[F]ind current [W]ord" }
+			-- )
+			-- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+			-- vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
+			-- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+			-- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+			-- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
+			-- vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[F]ind Buffers" })
+			-- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 		end,
 	},
 
@@ -419,16 +449,6 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
--- telescope
-vim.keymap.set("n", "<leader>fg", require("telescope.builtin").git_files, { desc = "[F]ind [G]it Files" })
-vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
-vim.keymap.set(
-	"n",
-	"<leader>fp",
-	"<cmd>lua require'telescope'.extensions.project.project{}<cr>",
-	{ desc = "[F]ind [P]rojects" }
-)
-
 -- lsp
 -- Jump to the definition of the word under your cursor.
 --  This is where a variable was first declared, or where a function is defined, etc.
@@ -477,15 +497,3 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: [C]ode
 -- Opens a popup that displays documentation about the word under your cursor
 --  See `:help K` for why this keymap
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation" })
-
--- todo
-vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[F]ind by live [G]rep" })
-vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
--- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
--- vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
--- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
--- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[F]ind Buffers" })
--- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
---
