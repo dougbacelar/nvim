@@ -323,6 +323,7 @@ require('lazy').setup {
       -- type :Mason to see everything currently installed
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
@@ -383,9 +384,9 @@ require('lazy').setup {
         -- lua formatter
         'stylua',
       })
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = ensure_installed,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
