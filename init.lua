@@ -386,6 +386,8 @@ require('lazy').setup {
       vim.list_extend(ensure_installed, {
         -- lua formatter
         'stylua',
+        -- try kotlin formatter
+        'ktlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
