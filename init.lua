@@ -116,7 +116,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gP', require('telescope.builtin').lsp_implementations, { desc = 'LSP: [G]oto Im[P]lementation' })
 
     -- jump to the type of the word under your cursor. useful when you're not sure what type a variable is and you want to see
-    vim.keymap.set('n', 'gy', require('telescope.builtin').lsp_type_definitions, 'LSP: T[y]pe Definition')
+    vim.keymap.set('n', 'gy', require('telescope.builtin').lsp_type_definitions, { desc = 'LSP: T[y]pe Definition' })
 
     -- Fuzzy find all the symbols in your current document.
     --  Symbols are things like variables, functions, types, etc.
@@ -140,7 +140,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
 
     -- The following two autocommands are used to highlight references of the
     -- word under your cursor when your cursor rests there for a little while.
@@ -252,17 +252,6 @@ require('lazy').setup {
       { 'nvim-tree/nvim-web-devicons' },
     },
     config = function()
-      -- Telescope is a fuzzy finder that comes with a lot of different things that
-      -- it can fuzzy find! It's more than just a "file finder", it can search
-      -- many different aspects of Neovim, your workspace, LSP, and more!
-      --
-      -- The easiest way to use telescope, is to start by doing something like:
-      --  :Telescope help_tags
-      --
-      -- After running this command, a window will open up and you're able to
-      -- type in the prompt window. You'll see a list of help_tags options and
-      -- a corresponding preview of the help.
-      --
       -- Two important keymaps to use while in telescope are:
       --  - Insert mode: <c-/>
       --  - Normal mode: ?
@@ -273,7 +262,6 @@ require('lazy').setup {
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
-      -- require("telescope").load_extension("project")
       require('telescope').setup {
         extensions = {
           -- You can put your default mappings / updates / etc. in here
@@ -329,45 +317,174 @@ require('lazy').setup {
 
   -- language server protocol stuff
   {
-    'VonHeikemen/lsp-zero.nvim',
+    'neovim/nvim-lspconfig',
     dependencies = {
-      --- use mason to manage LSP servers from neovim
+      -- use mason to manage LSP servers from neovim
       -- type :Mason to see everything currently installed
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
 
-      -- Useful status updates for LSP.
+      -- useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- LSP Support
-      -- type :LspInstall in a file to install lsp for that file type
-      { 'neovim/nvim-lspconfig' },
-      -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'L3MON4D3/LuaSnip' },
+      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
+      -- used for completion, annotations and signatures of Neovim apis
+      { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      local lsp_zero = require 'lsp-zero'
+      -- LSP servers and clients are able to communicate to each other what features they support.
+      --  By default, Neovim doesn't support everything that is in the LSP Specification.
+      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      lsp_zero.on_attach(function(client, bufnr)
-        -- see :help lsp-zero-keybindings
-        -- to learn the available actions
-        lsp_zero.default_keymaps { buffer = bufnr }
-      end)
-      require('mason').setup {}
+      --  can add override configuration in the following tables. Available keys are:
+      --  - cmd: Override the default command used to start the server
+      --  - filetypes: Override the default list of associated filetypes for the server
+      --  - capabilities: Override fields in capabilities. Can be used to disable certain LSP features.
+      --  - settings: Override the default settings passed when initializing the server.
+      --        for example, to see the options for `lua_ls`, go to: https://luals.github.io/wiki/settings/
+      local servers = {
+        -- clangd = {},
+        -- gopls = {},
+        -- pyright = {},
+        -- rust_analyzer = {},
+        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+        --
+        -- some languages (like typescript) have entire language plugins that can be useful:
+        --    https://github.com/pmizio/typescript-tools.nvim
+        --
+        -- but for many setups, the LSP (`tsserver`) will work just fine
+        tsserver = {},
+
+        lua_ls = {
+          -- cmd = {...},
+          -- filetypes { ...},
+          -- capabilities = {},
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = 'Replace',
+              },
+              -- toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+              diagnostics = { disable = { 'missing-fields' } },
+            },
+          },
+        },
+      }
+
+      --  see `:Mason`. You can press `g?` for help in this menu
+      require('mason').setup()
+
+      -- add other tools here that you want Mason to install
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        -- lua formatter
+        'stylua',
+      })
+
       require('mason-lspconfig').setup {
-        -- Replace the language servers listed here
-        -- with the ones you want to install
-        ensure_installed = { 'lua_ls', 'tsserver' },
+        ensure_installed = ensure_installed,
         handlers = {
-          lsp_zero.default_setup,
-          lua_ls = function()
-            -- https://www.reddit.com/r/neovim/comments/114wlhj/comment/j90sfbw
-            -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/neovim-lua-ls.md#fixed-config
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
+          function(server_name)
+            local server = servers[server_name] or {}
+            -- this handles overriding only values explicitly passed
+            -- by the server configuration above. Useful when disabling
+            -- certain features of an LSP (for example, turning off formatting for tsserver)
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            require('lspconfig')[server_name].setup(server)
           end,
+        },
+      }
+    end,
+  },
+
+  -- autocompletion
+  {
+    'hrsh7th/nvim-cmp',
+    event = 'InsertEnter',
+    dependencies = {
+      -- snippet engine & its associated nvim-cmp source
+      {
+        'L3MON4D3/LuaSnip',
+        build = (function()
+          return 'make install_jsregexp'
+        end)(),
+        dependencies = {
+          -- `friendly-snippets` contains a variety of premade snippets.
+          --    See the README about individual language/framework/plugin snippets:
+          --    https://github.com/rafamadriz/friendly-snippets
+          -- {
+          --   'rafamadriz/friendly-snippets',
+          --   config = function()
+          --     require('luasnip.loaders.from_vscode').lazy_load()
+          --   end,
+          -- },
+        },
+      },
+      'saadparwaiz1/cmp_luasnip',
+
+      -- adds other completion capabilities.
+      --  nvim-cmp does not ship with all sources by default. They are split
+      --  into multiple repos for maintenance purposes.
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+    },
+    config = function()
+      -- See `:help cmp`
+      local cmp = require 'cmp'
+      local luasnip = require 'luasnip'
+      luasnip.config.setup {}
+
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        completion = { completeopt = 'menu,menuone,noinsert' },
+
+        -- for an understanding of why these mappings were read `:help ins-completion`
+        mapping = cmp.mapping.preset.insert {
+          -- select the [n]ext item
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          -- select the [p]revious item
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+
+          -- scroll the documentation window [b]ack / [f]orward
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+
+          -- accept ([y]es) the completion.
+          --  this will auto-import if your LSP supports it.
+          --  this will expand snippets if the LSP sent a snippet.
+          ['<C-y>'] = cmp.mapping.confirm { select = true },
+
+          -- manually trigger a completion from nvim-cmp.
+          --  menerally not needed as nvim-cmp will display completions whenever they are available.
+          ['<C-Space>'] = cmp.mapping.complete {},
+
+          -- <c-l> will move you to the right of each of the expansion locations.
+          -- <c-h> is similar, except moving you backwards.
+          ['<C-l>'] = cmp.mapping(function()
+            if luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            end
+          end, { 'i', 's' }),
+          ['<C-h>'] = cmp.mapping(function()
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            end
+          end, { 'i', 's' }),
+
+          -- for more advanced luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+          --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'path' },
         },
       }
     end,
