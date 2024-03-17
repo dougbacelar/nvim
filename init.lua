@@ -191,10 +191,12 @@ require('lazy').setup {
     build = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup {
-        -- A list of parser names, or "all" (the five listed parsers should always be installed)
         ensure_installed = {
+          'bash',
           'c',
+          'html',
           'lua',
+          'markdown',
           'vim',
           'vimdoc',
           'query',
@@ -358,6 +360,7 @@ require('lazy').setup {
         --
         -- but for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
+        kotlin_language_server = {},
 
         lua_ls = {
           -- cmd = {...},
