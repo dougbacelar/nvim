@@ -524,9 +524,9 @@ require('lazy').setup {
       }
 
       -- keep this keymap as a fallback for now just in case the autocmd doesn't work
-      vim.keymap.set({ 'n', 'v' }, '<leader>mp', function()
+      vim.keymap.set({ 'n', 'v' }, '<leader>l', function()
         conform.format { async = false }
-      end, { desc = '[M]ake [P]rettier' })
+      end, { desc = '[L]int' })
     end,
   },
 
