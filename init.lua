@@ -279,8 +279,7 @@ require('lazy').setup {
           project = {
             base_dirs = {
               '~/dev',
-              '~/.config/nvim',
-              '~/.config/wezterm',
+              '~/.config',
               '~/indeed',
             },
           },
