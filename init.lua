@@ -28,7 +28,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- highlight current cursor line
 vim.opt.cursorline = true
 -- minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 10
 
 ----
 -- Bootstrap plugin manager
@@ -57,13 +57,6 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 -- turn off search highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
 
--- window navigation
--- see `:help wincmd` for a list of all window commands
--- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
--- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
--- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 ----
 -- Auto Commands
 ----
@@ -91,7 +84,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('doug-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank { timeout = 200 }
+    vim.highlight.on_yank { timeout = 300 }
   end,
 })
 
