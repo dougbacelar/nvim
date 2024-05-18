@@ -303,11 +303,13 @@ require('lazy').setup {
       vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
       vim.keymap.set('n', '<leader>fl', builtin.live_grep, { desc = '[F]ind [L]ive Grep' })
       vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-      vim.keymap.set('n', '<leader>f.', builtin.resume, { desc = '[F]ind Resume prev. picker ("." for repeat)' }) -- dont use this much
+      vim.keymap.set('n', '<leader>f.', builtin.resume, { desc = '[F]ind Resume prev. picker ("." for repeat)' })
       vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind [R]ecent Files' })
       vim.keymap.set('n', '<leader>fj', builtin.jumplist, { desc = '[F]ind [J]ump List' })
       vim.keymap.set('n', '<leader>fgc', builtin.git_commits, { desc = '[F]ind [G]it [C]ommits' })
       vim.keymap.set('n', '<leader>fgb', builtin.git_bcommits, { desc = '[F]ind [G]it [B]uffer Commits' })
+      vim.keymap.set('n', '<leader>fb', builtin.git_branches, { desc = '[F]ind Git [B]ranches' })
+      vim.keymap.set('n', '<leader>fgB', builtin.git_branches, { desc = '[F]ind [G]it [B]ranches' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>fp', "<cmd>lua require'telescope'.extensions.project.project{}<cr>", { desc = '[F]ind [P]rojects' })
 
