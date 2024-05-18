@@ -57,6 +57,12 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 -- turn off search highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
 
+-- toggle 'number'
+vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { silent = true, noremap = true, desc = '[T]oggle [N]umber Lines' })
+
+-- Toggle 'relativenumber'
+vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, noremap = true, desc = '[T]oggle [R]elative [N]umber Lines' })
+
 ----
 -- Auto Commands
 ----
@@ -595,6 +601,7 @@ require('lazy').setup {
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
+        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
       }
     end,
