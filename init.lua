@@ -130,10 +130,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- or a suggestion from your LSP for this to activate.
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: [C]ode [A]ction' })
 
-    -- Opens a popup that displays documentation about the word under your cursor
-    --  See `:help K` for why this keymap
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'LSP: Hover Documentation' })
-
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
@@ -144,7 +140,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --
     -- When you move your cursor, the highlights will be cleared (the second autocommand).
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client.server_capabilities.documentHighlightProvider then
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = event.buf,
         callback = vim.lsp.buf.document_highlight,
@@ -585,9 +581,6 @@ require('lazy').setup {
       MiniMisc.setup_restore_cursor()
     end,
   },
-
-  -- setup commenting from normal mode with 'gcc'
-  { 'echasnovski/mini.comment', config = true },
 
   -- useful plugin to show you pending keybinds.
   {
