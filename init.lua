@@ -593,6 +593,7 @@ require('lazy').setup {
   },
 
   require 'plugins.gitsigns',
+  require 'plugins.nvim-treesitter-textobjects',
 }
 
 -- see `:help modeline`
