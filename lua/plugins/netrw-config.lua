@@ -1,3 +1,9 @@
+-- set netrw to tree-style listing
+vim.g.netrw_liststyle = 3
+
+-- show the banner (top information in netrw)
+vim.g.netrw_banner = 1
+
 -- function to open netrw and place the cursor on the current buffer file
 _G.open_netrw_at_current_file = function()
   -- get the full path of the currently opened file in the buffer
