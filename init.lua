@@ -1,3 +1,7 @@
+-- make sure to set mapleader before lazy.nvim so the mappings are correct
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 ----
 -- Bootstrap plugin manager
 ----
