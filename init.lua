@@ -596,5 +596,8 @@ require('lazy').setup {
   require 'plugins.nvim-treesitter-textobjects',
 }
 
+-- modules in core are not loaded by Lazy
+require 'core'
+
 -- see `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
