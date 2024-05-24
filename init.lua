@@ -139,20 +139,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --  To update plugins, you can run
 --    :Lazy update
 require('lazy').setup {
-  -- the color theme
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    config = function()
-      require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        transparent_background = true, -- disables setting the background color.
-      }
-      vim.cmd.colorscheme 'catppuccin-mocha'
-    end,
-  },
-
   -- AST, syntax highlighting and stuff
   {
     'nvim-treesitter/nvim-treesitter',
@@ -531,6 +517,7 @@ require('lazy').setup {
   require 'plugins.which-key',
   require 'plugins.gitsigns',
   require 'plugins.nvim-treesitter-textobjects',
+  require 'plugins.catppuccin',
 }
 
 -- modules in core are not loaded by Lazy
