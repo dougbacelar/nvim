@@ -139,6 +139,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --  To update plugins, you can run
 --    :Lazy update
 require('lazy').setup {
+  -- required to to add filetype icons to netrw and telescope
+  { 'kyazdani42/nvim-web-devicons' },
+
   -- language server protocol stuff
   {
     'neovim/nvim-lspconfig',
