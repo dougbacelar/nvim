@@ -513,21 +513,6 @@ require('lazy').setup {
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  {
-    -- adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
-
   -- setup auto-workspace and restore cursor on file open
   {
     'echasnovski/mini.misc',
