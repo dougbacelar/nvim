@@ -2,25 +2,68 @@
 vim.g.netrw_liststyle = 3
 
 -- show the banner (top information in netrw)
-vim.g.netrw_banner = 1
+vim.g.netrw_banner = 0
+
+-- function to toggle netrw in a split and place the cursor on the current buffer file
+_G.toggle_netrw_at_current_file = function()
+  -- get the full path of the currently opened file in the buffer
+  local current_file = vim.fn.expand '%:p'
+  -- find if netrw window is already open (this is only needed if using Lexplore)
+  local netrw_win = nil
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf_ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win), 'filetype')
+    if buf_ft == 'netrw' then
+      netrw_win = win
+      break
+    end
+  end
+  -- if netrw is already open, close it
+  if netrw_win then
+    vim.api.nvim_win_close(netrw_win, true)
+    return
+  end
+  -- check if there is a currently opened file
+  if current_file == '' then
+    return
+  end
+
+  -- extract the directory and filename from the full path
+  local current_dir = vim.fn.fnamemodify(current_file, ':h')
+  local filename = vim.fn.fnamemodify(current_file, ':t')
+  -- use Lexplore to open a left panel and navigate to the directory containing the file
+  vim.cmd('Lexplore ' .. current_dir)
+  -- set the width of the netrw window
+  vim.cmd 'vertical resize 30'
+  -- search for the filename
+  vim.fn.search(filename)
+end
 
 -- function to open netrw and place the cursor on the current buffer file
 _G.open_netrw_at_current_file = function()
   -- get the full path of the currently opened file in the buffer
   local current_file = vim.fn.expand '%:p'
+
   -- open netrw
   vim.cmd.Ex()
-  -- check if there is a currently opened file
-  if current_file ~= '' then
-    -- extract only the filename from the full path
-    local filename = vim.fn.fnamemodify(current_file, ':t')
-    -- place the cursor on the current file in netrw by searching for the filename
-    vim.fn.search(filename)
+
+  if current_file == '' then
+    return
   end
+
+  -- check if there is a currently opened file
+  -- extract only the filename from the full path
+  local filename = vim.fn.fnamemodify(current_file, ':t')
+  -- place the cursor on the current file by searching for the filename
+  vim.fn.search(filename)
 end
 
--- map <leader>pv to open netrw at the current file's directory and place the cursor on the file
+-- open netrw at the current file's directory and place the cursor on the file
+-- TODO: consider changing keymap to something easier to press
 vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[P]roject [V]iew' })
+
+-- toggle netrw in a split at the current file's directory and place the cursor on the file
+-- TODO: using these two hotkeys together causes errors
+vim.api.nvim_set_keymap('n', '<leader>tpv', ':lua _G.toggle_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[T]oggle [P]roject [V]iew' })
 
 -- function to move the cursor to the next folder in netrw (downward)
 _G.move_cursor_to_next_folder = function()
@@ -59,10 +102,10 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- function to set icon for a single line
 local function set_icon_for_line(ns_id, i, line)
-  -- skip the netrw top banner
-  if i <= 7 then
-    return
-  end
+  -- skip the netrw top banner (uncomment if banner is turned on)
+  -- if i <= 7 then
+  --   return
+  -- end
 
   -- check if the line represents a folder by looking for a trailing '/'
   if line:match '/$' then
