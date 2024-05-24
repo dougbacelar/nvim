@@ -27,4 +27,8 @@ vim.opt.cursorline = true
 -- minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- set netrw to tree-style listing
+vim.g.netrw_liststyle = 3
 
+-- show the banner (top information in netrw)
+vim.g.netrw_banner = 1

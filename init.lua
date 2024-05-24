@@ -23,8 +23,6 @@ vim.opt.rtp:prepend(lazypath)
 ----
 -- Key maps
 ----
--- open explorer
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- turn off search highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
@@ -537,6 +535,8 @@ require('lazy').setup {
 
 -- modules in core are not loaded by Lazy
 require 'core.options'
+-- cant load this with lazy, leaving it outside for now
+require 'plugins.netrw-config'
 
 -- see `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
