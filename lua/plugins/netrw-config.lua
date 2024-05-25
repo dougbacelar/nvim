@@ -139,6 +139,17 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = set_netrw_icons,
 })
 
+-- set key mappings only for netrw
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'netrw',
+  callback = function()
+    -- map l to move cursor to the next folder in netrw
+    vim.api.nvim_buf_set_keymap(0, 'n', 'l', ':lua _G.move_cursor_to_next_folder()<CR>', { noremap = true, silent = true })
+    -- map h to move cursor to the previous folder in netrw
+    vim.api.nvim_buf_set_keymap(0, 'n', 'h', ':lua _G.move_cursor_to_prev_folder()<CR>', { noremap = true, silent = true })
+  end,
+})
+
 -- open netrw at the current file's directory and place the cursor on the file
 -- TODO: consider changing keymap to something easier to press
 vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[P]roject [V]iew' })
