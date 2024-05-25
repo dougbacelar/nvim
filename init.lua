@@ -373,7 +373,7 @@ require('lazy').setup {
 
   require 'plugins.which-key',
   require 'plugins.gitsigns',
-  require 'plugins.nvim-treesitter-textobjects',
+  require 'plugins.treesitter-textobjects',
   require 'plugins.catppuccin',
   require 'plugins.treesitter',
   require 'plugins.telescope',
