@@ -57,14 +57,6 @@ _G.open_netrw_at_current_file = function()
   vim.fn.search(filename)
 end
 
--- open netrw at the current file's directory and place the cursor on the file
--- TODO: consider changing keymap to something easier to press
-vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[P]roject [V]iew' })
-
--- toggle netrw in a split at the current file's directory and place the cursor on the file
--- TODO: using these two hotkeys together causes errors
-vim.api.nvim_set_keymap('n', '<leader>tpv', ':lua _G.toggle_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[T]oggle [P]roject [V]iew' })
-
 -- function to move the cursor to the next folder in netrw (downward)
 _G.move_cursor_to_next_folder = function()
   -- get the current line content
@@ -88,17 +80,6 @@ _G.move_cursor_to_prev_folder = function()
     vim.api.nvim_win_set_cursor(0, { found, 0 })
   end
 end
-
--- set key mappings only for netrw
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'netrw',
-  callback = function()
-    -- map l to move cursor to the next folder in netrw
-    vim.api.nvim_buf_set_keymap(0, 'n', 'l', ':lua _G.move_cursor_to_next_folder()<CR>', { noremap = true, silent = true })
-    -- map h to move cursor to the previous folder in netrw
-    vim.api.nvim_buf_set_keymap(0, 'n', 'h', ':lua _G.move_cursor_to_prev_folder()<CR>', { noremap = true, silent = true })
-  end,
-})
 
 -- function to set icon for a single line
 local function set_icon_for_line(ns_id, i, line)
@@ -157,3 +138,23 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'netrw',
   callback = set_netrw_icons,
 })
+
+-- open netrw at the current file's directory and place the cursor on the file
+-- TODO: consider changing keymap to something easier to press
+vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[P]roject [V]iew' })
+
+-- toggle netrw in a split at the current file's directory and place the cursor on the file
+-- TODO: using these two hotkeys together causes errors
+vim.api.nvim_set_keymap('n', '<leader>tpv', ':lua _G.toggle_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[T]oggle [P]roject [V]iew' })
+
+-- copy the full file path to the clipboard
+vim.keymap.set('n', 'yP', function()
+  if vim.bo.filetype == 'netrw' then
+    local filepath = vim.fn.expand '<cfile>'
+    local fullpath = vim.fn.fnamemodify(filepath, ':p')
+    vim.fn.setreg('+', fullpath)
+  else
+    -- also works with normal buffers
+    vim.cmd 'let @+ = expand("%:p")'
+  end
+end, { noremap = true, silent = true })
