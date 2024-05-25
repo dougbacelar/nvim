@@ -288,6 +288,7 @@ require('lazy').setup {
   require 'plugins.catppuccin',
   require 'plugins.treesitter',
   require 'plugins.telescope',
+  require 'plugins.lsp-config',
 }
 
 -- modules in core are not loaded by Lazy
