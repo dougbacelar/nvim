@@ -1,6 +1,7 @@
 -- language server protocol stuff
 return {
   'neovim/nvim-lspconfig',
+  event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
     -- use mason to manage LSP servers from neovim
     -- type :Mason to see everything currently installed
