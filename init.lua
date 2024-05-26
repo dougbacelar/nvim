@@ -21,22 +21,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 ----
--- Key maps
-----
-
--- turn off search highlight
-vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
-
--- toggle 'number'
-vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { silent = true, noremap = true, desc = '[T]oggle [N]umber Lines' })
-
--- toggle 'relativenumber'
-vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, noremap = true, desc = '[T]oggle [R]elative [N]umber Lines' })
-
--- yank file name of current buffer
-vim.keymap.set('n', 'yN', ':let @+=expand("%:t")<CR>', { noremap = true, silent = true })
-
-----
 -- Plugins
 ----
 --  To check the current status of your plugins, run
@@ -59,6 +43,7 @@ require('lazy').setup('plugins', {
 require 'core.options'
 require 'core.netrw-config'
 require 'core.autocmds'
+require 'core.keymaps'
 
 -- see `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
