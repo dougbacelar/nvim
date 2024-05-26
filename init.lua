@@ -75,25 +75,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --  You can press `?` in this menu for help. Use `:q` to close the window
 --  To update plugins, you can run
 --    :Lazy update
-require('lazy').setup {
-  require 'plugins.web-devicons',
-  require 'plugins.vim-sleuth',
-  require 'plugins.which-key',
-  require 'plugins.gitsigns',
-  require 'plugins.treesitter-textobjects',
-  require 'plugins.catppuccin',
-  require 'plugins.treesitter',
-  require 'plugins.telescope',
-  require 'plugins.lsp-config',
-  require 'plugins.cmp',
-  require 'plugins.conform',
-  require 'plugins.mini-misc',
-}
+require('lazy').setup('plugins', {
+  checker = {
+    enabled = false, -- disable automatic update checks
+    notify = false, -- disable notifications when updates are available
+  },
+  change_detection = {
+    enabled = true, -- automatically check for config file changes and reload the ui
+    notify = false, -- turn off notifications whenever plugin changes are made
+  },
+})
 
 -- modules in core are not loaded by Lazy
 require 'core.options'
--- cant load this with lazy, leaving it outside for now
-require 'plugins.netrw-config'
+require 'core.netrw-config'
 
 -- see `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
