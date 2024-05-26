@@ -142,12 +142,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --  To update plugins, you can run
 --    :Lazy update
 require('lazy').setup {
-  -- required to to add filetype icons to netrw and telescope
-  { 'kyazdani42/nvim-web-devicons' },
-
-  -- detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
-
+  require 'plugins.web-devicons',
+  require 'plugins.vim-sleuth',
   require 'plugins.which-key',
   require 'plugins.gitsigns',
   require 'plugins.treesitter-textobjects',
