@@ -148,19 +148,6 @@ require('lazy').setup {
   -- detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- setup auto-workspace and restore cursor on file open
-  {
-    'echasnovski/mini.misc',
-    config = function()
-      require('mini.misc').setup()
-      -- sets the workspace when you open a project file so telescope works better
-      MiniMisc.setup_auto_root()
-
-      -- restore the cursor upon reopening file!
-      MiniMisc.setup_restore_cursor()
-    end,
-  },
-
   require 'plugins.which-key',
   require 'plugins.gitsigns',
   require 'plugins.treesitter-textobjects',
@@ -170,6 +157,7 @@ require('lazy').setup {
   require 'plugins.lsp-config',
   require 'plugins.cmp',
   require 'plugins.conform',
+  require 'plugins.mini-misc',
 }
 
 -- modules in core are not loaded by Lazy
