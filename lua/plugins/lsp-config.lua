@@ -136,12 +136,18 @@ return {
       'stylua',
       -- try kotlin formatter
       'ktlint',
+      -- 'java-debug-adapter',
+      -- 'java-test',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
       handlers = {
         function(server_name)
+          if server_name == 'jdtls' then
+            -- skip setting up java lsp here to avoid having two processes attached
+            return
+          end
           local server = servers[server_name] or {}
           -- this handles overriding only values explicitly passed
           -- by the server configuration above. Useful when disabling
