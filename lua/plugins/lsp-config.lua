@@ -136,8 +136,9 @@ return {
       'stylua',
       -- try kotlin formatter
       'ktlint',
-      -- 'java-debug-adapter',
-      -- 'java-test',
+      -- java tools
+      'java-debug-adapter',
+      'java-test',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
