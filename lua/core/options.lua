@@ -26,3 +26,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.cursorline = true
 -- minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- prevent text from flickering by keeping sign column always on (git signs, diagnostics, etc)
+vim.opt.signcolumn = 'yes'
