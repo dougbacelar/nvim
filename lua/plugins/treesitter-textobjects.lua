@@ -101,6 +101,17 @@ return {
       vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
       vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
       vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
+
+      -- make diagnostic navigation repeatable
+      local next_diagnostic_repeat, prev_diagnostic_repeat = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']d', next_diagnostic_repeat, { desc = 'Next [D]iagnostic' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[d', prev_diagnostic_repeat, { desc = 'Previous [D]iagnostic' })
+
+      -- make hunk navigation repeatable
+      local gs = require 'gitsigns'
+      local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']h', next_hunk_repeat, { desc = 'Next [H]unk' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[h', prev_hunk_repeat, { desc = 'Previous [H]unk' })
     end,
   },
 }
