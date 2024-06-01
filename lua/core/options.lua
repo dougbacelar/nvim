@@ -10,6 +10,8 @@ vim.o.timeoutlen = 300
 vim.o.undofile = true
 -- remove line numbers by default. Use :set number to manually turn it on and :set nonumber to manually turn it back off
 vim.opt.number = false
+-- experiment with relative numbers on by default
+vim.opt.relativenumber = true
 -- tells nvim to use the "+" register. This will share the clipboard between nvim/MacOS
 vim.opt.clipboard = 'unnamedplus'
 -- indents wrapped lines so they are easier to read
