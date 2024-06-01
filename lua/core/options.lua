@@ -29,3 +29,6 @@ vim.opt.scrolloff = 10
 
 -- prevent text from flickering by keeping sign column always on (git signs, diagnostics, etc)
 vim.opt.signcolumn = 'yes'
+
+-- disable showing mode in the command line, as lualine will display it
+vim.o.showmode = false
