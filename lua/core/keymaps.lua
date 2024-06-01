@@ -13,3 +13,11 @@ vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, 
 
 -- yank file name of current buffer
 vim.keymap.set('n', 'yN', ':let @+=expand("%:t")<CR>', { noremap = true, silent = true })
+
+-- Buffers
+-- go to the previous buffer
+vim.keymap.set('n', '<leader>pb', ':bprevious<CR>', { desc = '[P]revious [B]uffer' })
+-- go to the next buffer
+vim.keymap.set('n', '<leader>nb', ':bnext<CR>', { desc = '[N]ext [B]uffer' })
+-- close the current buffer
+vim.keymap.set('n', '<leader>db', ':bdelete<CR>', { desc = '[D]elete [B]uffer' })
