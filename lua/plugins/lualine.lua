@@ -13,7 +13,7 @@ return {
         lualine_c = { 'buffers' },
         lualine_x = {},
         lualine_y = { 'diff' },
-        lualine_z = { 'location' },
+        lualine_z = { 'progress', 'location' },
       },
       inactive_sections = {
         lualine_a = {},
