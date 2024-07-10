@@ -20,6 +20,7 @@ return {
         yaml = { { 'prettierd', 'prettier' } },
         markdown = { { 'prettierd', 'prettier' } },
         graphql = { { 'prettierd', 'prettier' } },
+        sql = { 'sql_formatter' },
       },
       -- format on save is not working due to auto save, moved format code to auto-save autocmd
       -- fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 500 },
