@@ -10,7 +10,15 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diagnostics' },
-        lualine_c = { 'buffers' },
+        lualine_c = {
+          'buffers',
+          {
+            function()
+              return vim.bo.eol == false and '[noeol]' or ''
+            end,
+            color = { fg = 'red' },
+          },
+        },
         lualine_x = {},
         lualine_y = { 'diff' },
         lualine_z = { 'progress', 'location' },
