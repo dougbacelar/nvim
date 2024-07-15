@@ -38,7 +38,7 @@ return {
 
         -- jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation. Idk how this is different from lsp_incoming_calls
-        vim.keymap.set('n', 'gP', require('telescope.builtin').lsp_implementations, { desc = 'LSP: [G]oto Im[P]lementation' })
+        vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations, { desc = 'LSP: [G]oto [I]mplementation' })
 
         -- jump to the type of the word under your cursor. useful when you're not sure what type a variable is and you want to see
         vim.keymap.set('n', 'gy', require('telescope.builtin').lsp_type_definitions, { desc = 'LSP: T[y]pe Definition' })
