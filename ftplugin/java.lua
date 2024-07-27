@@ -42,7 +42,7 @@ local config = {
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
-  root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew"}),
+  root_dir = vim.fs.root(0, { '.git', 'mvnw', 'gradlew' }),
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -50,7 +50,7 @@ local config = {
     java = {
       -- TODO Replace this with the absolute path to your main java version (JDK 17 or higher)
       -- output of echo $JAVA_HOME
-      home = '/Library/Java/JavaVirtualMachines/jdk17.0.8.jdk/Contents/Home',
+      home = '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home',
       eclipse = {
         downloadSources = true,
       },
@@ -72,7 +72,7 @@ local config = {
           --   path = '/usr/lib/jvm/java-19-openjdk-amd64',
           -- },
           -- output of /usr/libexec/java_home -V
-          { name = 'JavaSE-17', path = '/Library/Java/JavaVirtualMachines/jdk17.0.8.jdk/Contents/Home' },
+          { name = 'JavaSE-17', path = '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home' },
         },
       },
       maven = {
