@@ -34,3 +34,11 @@ vim.opt.signcolumn = 'yes'
 
 -- disable showing mode in the command line, as lualine will display it
 vim.o.showmode = false
+
+-- indentation rules, mostly used for new files where indentation cannot be inferred
+-- set tab width
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+-- use spaces instead of tabs
+vim.opt.expandtab = true
