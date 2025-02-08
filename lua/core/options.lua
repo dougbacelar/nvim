@@ -42,3 +42,8 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 -- use spaces instead of tabs
 vim.opt.expandtab = true
+
+-- expands all folds by default
+vim.opt.foldlevelstart = 99
+-- ensures folds are saved in views autocmds
+vim.opt.viewoptions = { 'folds' }

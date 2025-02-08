@@ -108,6 +108,7 @@ return {
       --
       -- but for many setups, the LSP (`tsserver`) will work just fine
       tsserver = {},
+      html = {},
       kotlin_language_server = {},
 
       lua_ls = {

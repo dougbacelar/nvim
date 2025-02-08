@@ -64,7 +64,6 @@ return {
               -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
               -- not sure what this does but it wont work as ]s is assigned to 'next mispelled word'
               -- [']s'] = { query = '@scope', query_group = 'locals', desc = 'Next scope' },
-              [']z'] = { query = '@fold', query_group = 'folds', desc = 'Next fold' },
             },
             goto_next_end = {
               [']F'] = { query = '@call.outer', desc = 'Next function call end' },
