@@ -14,7 +14,7 @@ vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, 
 vim.keymap.set('n', 'yN', ':let @+ = expand("%:t")<CR>', { noremap = true, silent = true, desc = '[Y]ank File [N]ame' })
 vim.keymap.set('n', 'yP', ':let @+ = expand("%:p")<CR>', { noremap = true, silent = true, desc = '[Y]ank File [P]ath' })
 
--- Buffers
+-- buffers
 -- go to the previous buffer
 vim.keymap.set('n', '<leader>pb', ':bprevious<CR>', { desc = '[P]revious [B]uffer' })
 -- go to the next buffer
