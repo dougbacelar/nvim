@@ -46,4 +46,4 @@ vim.opt.expandtab = true
 -- expands all folds by default
 vim.opt.foldlevelstart = 99
 -- ensures folds are saved in views autocmds
-vim.opt.viewoptions = { 'folds' }
+vim.opt.viewoptions = 'folds,cursor'

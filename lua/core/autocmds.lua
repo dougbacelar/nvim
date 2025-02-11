@@ -70,8 +70,9 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   group = folding_group,
   pattern = '?*',
   callback = function()
-    vim.defer_fn(function()
+    vim.schedule(function()
+      -- delay loadview slightly to avoid conflicts with above folding autocmd
       vim.cmd.loadview { mods = { emsg_silent = true } }
-    end, 50) -- delay loadview slightly to avoid conflicts with above folding autocmd
+    end)
   end,
 })
