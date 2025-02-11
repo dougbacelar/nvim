@@ -3,12 +3,6 @@ return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
-    -- use mason to manage LSP servers from neovim
-    -- type :Mason to see everything currently installed
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-
     -- useful status updates for LSP.
     { 'j-hui/fidget.nvim', opts = {} },
 
@@ -97,6 +91,7 @@ return {
     --  - settings: Override the default settings passed when initializing the server.
     --        for example, to see the options for `lua_ls`, go to: https://luals.github.io/wiki/settings/
     local servers = {
+      -- skip setting up java lsp(jdtls) here to avoid having two processes attached
       -- clangd = {},
       -- gopls = {},
       -- pyright = {},
@@ -106,8 +101,8 @@ return {
       -- some languages (like typescript) have entire language plugins that can be useful:
       --    https://github.com/pmizio/typescript-tools.nvim
       --
-      -- but for many setups, the LSP (`tsserver`) will work just fine
-      tsserver = {},
+      -- but for many setups, the LSP (`ts_ls`) will work just fine
+      ts_ls = {},
       html = {},
       kotlin_language_server = {},
 
@@ -127,37 +122,12 @@ return {
       },
     }
 
-    --  see `:Mason`. You can press `g?` for help in this menu
-    require('mason').setup()
-
-    -- add other tools here that you want Mason to install
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      -- lua formatter
-      'stylua',
-      -- try kotlin formatter
-      'ktlint',
-      -- java tools
-      'java-debug-adapter',
-      'java-test',
-    })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          if server_name == 'jdtls' then
-            -- skip setting up java lsp here to avoid having two processes attached
-            return
-          end
-          local server = servers[server_name] or {}
-          -- this handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for tsserver)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
-    }
+    for server_name, opts in pairs(servers) do
+      -- this handles overriding only values explicitly passed
+      -- by the server configuration above. Useful when disabling
+      -- certain features of an LSP (for example, turning off formatting for tsserver)
+      opts.capabilities = vim.tbl_deep_extend('force', {}, capabilities, opts.capabilities or {})
+      require('lspconfig')[server_name].setup(opts)
+    end
   end,
 }

@@ -8,15 +8,20 @@ packages=(
   # window management
   yabai                           # window manager for macos
   skhd                            # shortcut daemon for macos
+  # ide
+  neovim
   # lsps
   typescript-language-server      # aka ts_ls. LSP implementation for TypeScript wrapping tsserver.
   vscode-langservers-extracted    # collection of language servers extracted from vscode (e.g., for html)
   basedpyright                    # python LSP server forked from pyright
   lua-language-server             # language server for lua (used for lua_ls)
+  jdtls                           # java language server (eclipse.jdt.ls)
   kotlin-language-server          # language server for kotlin
   # linters and formatters
   stylua                          # lua code formatter
   ktlint                          # kotlin linter/formatter
+  # tools
+  openjdk                         # install jdk for running jdtls
 )
 
 for item in "${packages[@]}"; do
