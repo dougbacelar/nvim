@@ -62,6 +62,11 @@ vim.api.nvim_create_autocmd('BufWinLeave', {
   group = folding_group,
   pattern = '?*',
   callback = function()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    if vim.fn.filewritable(bufname) == 0 then
+      -- avoid trying to make views when navigating out of non-writable LSP files
+      return
+    end
     vim.cmd.mkview {}
   end,
 })
