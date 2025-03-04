@@ -18,6 +18,7 @@ packages=(
   jdtls                           # java language server (eclipse.jdt.ls)
   kotlin-language-server          # language server for kotlin
   # linters and formatters
+  prettierd                       # javascript's formatter, prettier as a daemon
   stylua                          # lua code formatter
   ktlint                          # kotlin linter/formatter
   # tools
