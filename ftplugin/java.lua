@@ -31,9 +31,10 @@ local config = {
   -- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
   -- -data ~/jdtls-workspace/test-files
   cmd = {
-    -- make sure java --version returns a version that can run JDTLS
-    -- consider adding to ~/.zprofile: `export JAVA_HOME=$(/usr/libexec/java_home -v 23)`
-    'java',
+    -- use specific full path for reliability
+    -- do not change JAVA_HOME to avoid conflicts with work environment
+    -- make sure the version below is enough for running JDTLS!
+    '/opt/homebrew/opt/openjdk@23/bin/java',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
