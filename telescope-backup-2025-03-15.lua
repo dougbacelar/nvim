@@ -127,4 +127,4 @@ return -- fuzzy finding files and stuff
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[F]ind [N]eovim files' })
   end,
-}
+

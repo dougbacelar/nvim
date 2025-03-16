@@ -23,6 +23,10 @@ packages=(
   ktlint                          # kotlin linter/formatter
   # tools
   openjdk                         # install jdk for running jdtls
+  fzf                             # add `source <(fzf --zsh)` to .zprofile
+  sqlite3                         # sqlite CLI used by snacks.picker neovim plugin
+  fd                              # quicker finder required for snacks.picker to search for projects
+  rg                              # quicker grep, required for snacks.picker
 )
 
 for item in "${packages[@]}"; do

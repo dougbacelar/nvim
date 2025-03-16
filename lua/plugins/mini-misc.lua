@@ -4,7 +4,7 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     require('mini.misc').setup()
-    -- sets the workspace when you open a project file so telescope works better
+    -- sets the workspace when you open a project file so file pickers work better
     MiniMisc.setup_auto_root()
   end,
 }

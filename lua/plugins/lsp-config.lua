@@ -15,36 +15,6 @@ return {
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('doug-lsp-attach', { clear = true }),
       callback = function(event)
-        -- lsp
-
-        -- jump to the definition of the word under your cursor. This is where a variable was first declared, or where a function is defined, etc.
-        --  to jump back, press <C-T>, <C-O> or backticks ``
-        vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'LSP: [G]oto [D]efinition' })
-
-        -- find references for the word under your cursor.
-        vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'LSP: [G]oto [R]eferences' })
-
-        --
-        vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_incoming_calls, { desc = 'LSP: [G]oto [I]ncoming Calls' })
-
-        --
-        vim.keymap.set('n', 'gO', require('telescope.builtin').lsp_outgoing_calls, { desc = 'LSP: [G]oto [O]utgoing Calls' })
-
-        -- jump to the implementation of the word under your cursor.
-        --  Useful when your language has ways of declaring types without an actual implementation. Idk how this is different from lsp_incoming_calls
-        vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations, { desc = 'LSP: [G]oto [I]mplementation' })
-
-        -- jump to the type of the word under your cursor. useful when you're not sure what type a variable is and you want to see
-        vim.keymap.set('n', 'gy', require('telescope.builtin').lsp_type_definitions, { desc = 'LSP: T[y]pe Definition' })
-
-        -- Fuzzy find all the symbols in your current document.
-        --  Symbols are things like variables, functions, types, etc.
-        vim.keymap.set('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols, { desc = 'LSP: [D]ocument [S]ymbols' })
-
-        -- Fuzzy find all the symbols in your current workspace
-        --  Similar to document symbols, except searches over your whole project.
-        vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, { desc = 'LSP: [W]orkspace [S]ymbols' })
-
         -- Rename the variable under your cursor
         --  Most Language Servers support renaming across files, etc.
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'LSP: [R]e[n]ame' })

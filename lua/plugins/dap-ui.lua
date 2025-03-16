@@ -9,7 +9,7 @@ return {
     -- https://github.com/theHamsta/nvim-dap-virtual-text
     'theHamsta/nvim-dap-virtual-text', -- inline variable text while debugging
     -- https://github.com/nvim-telescope/telescope-dap.nvim
-    'nvim-telescope/telescope-dap.nvim', -- telescope integration with dap
+    -- 'nvim-telescope/telescope-dap.nvim', -- telescope integration with dap
     -- this seems to be required now https://github.com/rcarriga/nvim-dap-ui/pull/311/files
     'nvim-neotest/nvim-nio',
   },
@@ -153,9 +153,9 @@ return {
       local widgets = require 'dap.ui.widgets'
       widgets.centered_float(widgets.scopes)
     end, { desc = '[D]ebug [S]copes' })
-    vim.keymap.set('n', '<leader>dl', '<cmd>Telescope dap list_breakpoints<cr>', { desc = '[D]ebug List Breakpoints' })
-    vim.keymap.set('n', '<leader>df', '<cmd>Telescope dap frames<cr>', { desc = '[D]ebug [F]rames' })
-    vim.keymap.set('n', '<leader>d:', '<cmd>Telescope dap commands<cr>', { desc = '[D]ebug : (Commands)' })
+    -- vim.keymap.set('n', '<leader>dl', '<cmd>Telescope dap list_breakpoints<cr>', { desc = '[D]ebug List Breakpoints' })
+    -- vim.keymap.set('n', '<leader>df', '<cmd>Telescope dap frames<cr>', { desc = '[D]ebug [F]rames' })
+    -- vim.keymap.set('n', '<leader>d:', '<cmd>Telescope dap commands<cr>', { desc = '[D]ebug : (Commands)' })
     vim.keymap.set('n', '<leader>dC', "<cmd>lua require'jdtls'.test_class()<cr>", { desc = '[D]ebug [C]lass' })
     vim.keymap.set('n', '<leader>dm', "<cmd>lua require'jdtls'.test_nearest_method()<cr>", { desc = '[D]ebug [M]ethod' })
   end,
