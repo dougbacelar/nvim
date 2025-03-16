@@ -1,6 +1,11 @@
 return {
-  -- filter further by file type with `foo -- -t=lua`.
-  -- This only works on live grep, for other pickers use `foo file:lua$` instead
+  -- Filter further by file type with
+  --   `foo -- -type=lua`
+  --   `foo -- -t=lua`
+  --   `foo -- -type-not=lua`
+  -- This only works on live grep, for other pickers use this instead
+  --   `foo file:lua$`
+  --   `foo file:!lua$`
   'folke/snacks.nvim',
   ---@type snacks.Config
   opts = {
@@ -77,7 +82,7 @@ return {
     Snacks.setup(opts)
     -- manually setup
     vim.keymap.set('n', '<leader>fh', Snacks.picker.help, { desc = '[F]ind [H]elp' })
-    vim.keymap.set('n', '<leader>fk', Snacks.picker.help, { desc = '[F]ind [K]eymaps' })
+    vim.keymap.set('n', '<leader>fk', Snacks.picker.keymaps, { desc = '[F]ind [K]eymaps' })
     vim.keymap.set('n', '<leader>fF', function()
       Snacks.picker.files { hidden = true, ignored = true } -- TODO: add keymap for toggling ignored/hidden
     end, { desc = '[F]ind [F]iles' })
@@ -101,7 +106,9 @@ return {
     vim.keymap.set('n', '<leader>e', function()
       Snacks.explorer()
     end, { desc = 'File Explorer' })
-    -- vim.keymap.set('n', '<leader>`', Snacks.explorer, { desc = 'File Explorer' })
+    vim.keymap.set('n', '<leader>`', function()
+      Snacks.explorer()
+    end, { desc = 'File Explorer' })
     vim.keymap.set('n', '<leader>fc', function()
       Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[F]ind [C]onfig files' })
