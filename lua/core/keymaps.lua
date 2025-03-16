@@ -9,6 +9,10 @@ vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
 vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { silent = true, noremap = true, desc = '[T]oggle [N]umber Lines' })
 -- toggle 'relativenumber'
 vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, noremap = true, desc = '[T]oggle [R]elative [N]umber Lines' })
+-- toggle diagnostics on/off, helpful for noisy LSPs
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = 'Toggle Diagnostics' })
 
 -- yank file name or path of current buffer
 vim.keymap.set('n', 'yN', ':let @+ = expand("%:t")<CR>', { noremap = true, silent = true, desc = '[Y]ank File [N]ame' })
