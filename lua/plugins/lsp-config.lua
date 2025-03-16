@@ -64,7 +64,13 @@ return {
       -- skip setting up java lsp(jdtls) here to avoid having two processes attached
       -- clangd = {},
       -- gopls = {},
-      basedpyright = {},
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            typeCheckingMode = 'recommended',
+          },
+        },
+      },
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
