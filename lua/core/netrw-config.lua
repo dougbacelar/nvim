@@ -152,11 +152,11 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- open netrw at the current file's directory and place the cursor on the file
 -- TODO: consider changing keymap to something easier to press
-vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[P]roject [V]iew' })
+vim.api.nvim_set_keymap('n', '<leader>pv', ':lua _G.open_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = 'Project [V]iew' })
 
 -- toggle netrw in a split at the current file's directory and place the cursor on the file
 -- TODO: using these two hotkeys together causes errors
-vim.api.nvim_set_keymap('n', '<leader>tpv', ':lua _G.toggle_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = '[T]oggle [P]roject [V]iew' })
+vim.api.nvim_set_keymap('n', '<leader>tpv', ':lua _G.toggle_netrw_at_current_file()<CR>', { noremap = true, silent = true, desc = 'Toggle Project View' })
 
 -- copy the full file path to the clipboard
 vim.keymap.set('n', 'yP', function()

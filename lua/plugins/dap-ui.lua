@@ -123,40 +123,35 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = 'Toggle [D]ebug [B]reakpoint' })
-    vim.keymap.set('n', '<leader>di', "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>", { desc = '[D]ebug [I]f Condition' })
-    vim.keymap.set(
-      'n',
-      '<leader>dL',
-      "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>",
-      { desc = '[D]ebug [L]og Message' }
-    )
-    vim.keymap.set('n', '<leader>dR', "<cmd>lua require'dap'.clear_breakpoints()<cr>", { desc = '[D]ebug [R]eset Breakpoints' })
-    vim.keymap.set('n', '<leader>dc', "<cmd>lua require'dap'.continue()<cr>", { desc = '[D]ebug [C]ontinue' })
-    vim.keymap.set('n', '<leader>dj', "<cmd>lua require'dap'.step_over()<cr>", { desc = '[D]ebug Step [J]over' })
-    vim.keymap.set('n', '<leader>di', "<cmd>lua require'dap'.step_into()<cr>", { desc = '[D]ebug [I]nto' })
-    vim.keymap.set('n', '<leader>do', "<cmd>lua require'dap'.step_out()<cr>", { desc = '[D]ebug [O]ut' })
+    vim.keymap.set('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = 'Toggle Debug Breakpoint' })
+    vim.keymap.set('n', '<leader>di', "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>", { desc = 'Debug If Condition' })
+    vim.keymap.set('n', '<leader>dL', "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>", { desc = 'Debug Log Message' })
+    vim.keymap.set('n', '<leader>dR', "<cmd>lua require'dap'.clear_breakpoints()<cr>", { desc = 'Debug Reset Breakpoints' })
+    vim.keymap.set('n', '<leader>dc', "<cmd>lua require'dap'.continue()<cr>", { desc = 'Debug Continue' })
+    vim.keymap.set('n', '<leader>dj', "<cmd>lua require'dap'.step_over()<cr>", { desc = 'Debug Step Jover' })
+    vim.keymap.set('n', '<leader>di', "<cmd>lua require'dap'.step_into()<cr>", { desc = 'Debug Into' })
+    vim.keymap.set('n', '<leader>do', "<cmd>lua require'dap'.step_out()<cr>", { desc = 'Debug Out' })
     vim.keymap.set('n', '<leader>dd', function()
       require('dap').disconnect()
       require('dapui').close()
-    end, { desc = '[D]ebug [D]isconnect' })
+    end, { desc = 'Debug Disconnect' })
     vim.keymap.set('n', '<leader>dt', function()
       require('dap').terminate()
       require('dapui').close()
-    end, { desc = '[D]ebug [T]erminate' })
-    vim.keymap.set('n', '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<cr>", { desc = '[D]ebug [R]ead Eval Print Loop' })
-    vim.keymap.set('n', '<leader>d.', "<cmd>lua require'dap'.run_last()<cr>", { desc = '[D]ebug . (Last)' })
+    end, { desc = 'Debug Terminate' })
+    vim.keymap.set('n', '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<cr>", { desc = 'Debug Read Eval Print Loop' })
+    vim.keymap.set('n', '<leader>d.', "<cmd>lua require'dap'.run_last()<cr>", { desc = 'Debug . (Last)' })
     vim.keymap.set('n', '<leader>dk', function()
       require('dap.ui.widgets').hover()
-    end, { desc = '[D]ebug [K] hover' })
+    end, { desc = 'Debug K hover' })
     vim.keymap.set('n', '<leader>ds', function()
       local widgets = require 'dap.ui.widgets'
       widgets.centered_float(widgets.scopes)
-    end, { desc = '[D]ebug [S]copes' })
-    -- vim.keymap.set('n', '<leader>dl', '<cmd>Telescope dap list_breakpoints<cr>', { desc = '[D]ebug List Breakpoints' })
-    -- vim.keymap.set('n', '<leader>df', '<cmd>Telescope dap frames<cr>', { desc = '[D]ebug [F]rames' })
-    -- vim.keymap.set('n', '<leader>d:', '<cmd>Telescope dap commands<cr>', { desc = '[D]ebug : (Commands)' })
-    vim.keymap.set('n', '<leader>dC', "<cmd>lua require'jdtls'.test_class()<cr>", { desc = '[D]ebug [C]lass' })
-    vim.keymap.set('n', '<leader>dm', "<cmd>lua require'jdtls'.test_nearest_method()<cr>", { desc = '[D]ebug [M]ethod' })
+    end, { desc = 'Debug Scopes' })
+    -- vim.keymap.set('n', '<leader>dl', '<cmd>Telescope dap list_breakpoints<cr>', { desc = 'Debug List Breakpoints' })
+    -- vim.keymap.set('n', '<leader>df', '<cmd>Telescope dap frames<cr>', { desc = 'Debug Frames' })
+    -- vim.keymap.set('n', '<leader>d:', '<cmd>Telescope dap commands<cr>', { desc = 'Debug : (Commands)' })
+    vim.keymap.set('n', '<leader>dC', "<cmd>lua require'jdtls'.test_class()<cr>", { desc = 'Debug Class' })
+    vim.keymap.set('n', '<leader>dm', "<cmd>lua require'jdtls'.test_nearest_method()<cr>", { desc = 'Debug Method' })
   end,
 }

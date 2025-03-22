@@ -6,25 +6,25 @@
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr><esc>')
 
 -- toggle 'number'
-vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { silent = true, noremap = true, desc = '[T]oggle [N]umber Lines' })
+vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { silent = true, noremap = true, desc = 'Toggle Number Lines' })
 -- toggle 'relativenumber'
-vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, noremap = true, desc = '[T]oggle [R]elative [N]umber Lines' })
+vim.keymap.set('n', '<leader>trn', ':set relativenumber!<CR>', { silent = true, noremap = true, desc = 'Toggle Relative Number Lines' })
 -- toggle diagnostics on/off, helpful for noisy LSPs
 vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = 'Toggle Diagnostics' })
 
 -- yank file name or path of current buffer
-vim.keymap.set('n', 'yN', ':let @+ = expand("%:t")<CR>', { noremap = true, silent = true, desc = '[Y]ank File [N]ame' })
-vim.keymap.set('n', 'yP', ':let @+ = expand("%:p")<CR>', { noremap = true, silent = true, desc = '[Y]ank File [P]ath' })
+vim.keymap.set('n', 'yN', ':let @+ = expand("%:t")<CR>', { noremap = true, silent = true, desc = 'Yank File Name' })
+vim.keymap.set('n', 'yP', ':let @+ = expand("%:p")<CR>', { noremap = true, silent = true, desc = 'Yank File Path' })
 
 -- buffers
 -- go to the previous buffer
-vim.keymap.set('n', '<leader>pb', ':bprevious<CR>', { desc = '[P]revious [B]uffer' })
+vim.keymap.set('n', '<leader>pb', ':bprevious<CR>', { desc = 'Previous Buffer' })
 -- go to the next buffer
-vim.keymap.set('n', '<leader>nb', ':bnext<CR>', { desc = '[N]ext [B]uffer' })
+vim.keymap.set('n', '<leader>nb', ':bnext<CR>', { desc = 'Next Buffer' })
 -- close the current buffer
-vim.keymap.set('n', '<leader>db', ':bdelete<CR>', { desc = '[D]elete [B]uffer' })
+vim.keymap.set('n', '<leader>db', ':bdelete<CR>', { desc = 'Delete Buffer' })
 
 -- windows
 -- easier focus navigation

@@ -30,6 +30,6 @@ return {
     -- keep this keymap as a fallback for now just in case the autocmd doesn't work
     vim.keymap.set({ 'n', 'v' }, '<leader>l', function()
       conform.format { async = false }
-    end, { desc = '[L]int' })
+    end, { desc = 'Lint' })
   end,
 }
