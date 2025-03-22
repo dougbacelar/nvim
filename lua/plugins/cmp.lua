@@ -58,6 +58,7 @@ return {
         --  this will auto-import if your LSP supports it.
         --  this will expand snippets if the LSP sent a snippet.
         ['<C-y>'] = cmp.mapping.confirm { select = true },
+        ['<CR>'] = cmp.mapping.confirm { select = true },
 
         -- manually trigger a completion from nvim-cmp.
         --  menerally not needed as nvim-cmp will display completions whenever they are available.
