@@ -38,10 +38,10 @@ return {
             ['<a-w>'] = { 'cycle_win', mode = { 'i', 'n' } },
             ['<c-j>'] = { 'focus_list', mode = { 'i', 'n' } },
             ['<c-l>'] = { 'focus_preview', mode = { 'i', 'n' } },
-            ['<c-u>'] = 'preview_scroll_up',
-            ['<c-d>'] = 'preview_scroll_down',
-            ['<c-b>'] = 'list_scroll_up',
-            ['<c-f>'] = 'list_scroll_down',
+            ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+            ['<c-b>'] = { 'list_scroll_up', mode = { 'i', 'n' } },
+            ['<c-f>'] = { 'list_scroll_down', mode = { 'i', 'n' } },
           },
         },
         -- result list window
@@ -88,10 +88,11 @@ return {
     end, { desc = 'Find Files' })
     vim.keymap.set('n', '<leader>ff', Snacks.picker.git_files, { desc = 'Find Git Files' }) -- consider changing to files if really fast
     vim.keymap.set('n', '<leader>fgf', Snacks.picker.git_files, { desc = 'Find Git Files' })
-    vim.keymap.set('n', '<leader>fw', Snacks.picker.grep_word, { desc = 'Find current Word' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>fw', Snacks.picker.grep_word, { desc = 'Find current Word' })
     vim.keymap.set('n', '<leader>fl', Snacks.picker.grep, { desc = 'Find Live Grep' })
-    vim.keymap.set('n', '<leader>/', Snacks.picker.grep, { desc = 'Find Live Grep' })
+    vim.keymap.set('n', '<leader>/', Snacks.picker.search_history, { desc = 'Find Search History' })
     vim.keymap.set('n', '<leader>fd', Snacks.picker.diagnostics, { desc = 'Find Diagnostics' })
+    vim.keymap.set('n', '<leader>fD', Snacks.picker.diagnostics_buffer, { desc = 'Find Diagnostics for Buffer' })
     vim.keymap.set('n', '<leader>f.', Snacks.picker.resume, { desc = 'Find Resume prev. picker ("." for repeat)' })
     vim.keymap.set('n', '<leader>fr', Snacks.picker.recent, { desc = 'Find Recent Files' })
     vim.keymap.set('n', '<leader>fj', Snacks.picker.jumps, { desc = 'Find Jump List' })
@@ -99,10 +100,12 @@ return {
     vim.keymap.set('n', '<leader>fgb', Snacks.picker.git_log_file, { desc = 'Find Git Buffer Commits' })
     vim.keymap.set('n', '<leader>fgB', Snacks.picker.git_branches, { desc = 'Find Git Branches' })
     vim.keymap.set('n', '<leader>fb', Snacks.picker.buffers, { desc = 'Find Buffers' })
-    vim.keymap.set('n', '<leader>fs', Snacks.picker.buffers, { desc = 'Find Smart' })
     vim.keymap.set('n', '<leader><leader>', Snacks.picker.smart, { desc = '[ ] Find Smart' })
-    vim.keymap.set('n', '<leader>:', Snacks.picker.command_history, { desc = 'Find commands' })
+    vim.keymap.set('n', '<leader>:', Snacks.picker.command_history, { desc = 'Find command history' })
     vim.keymap.set('n', '<leader>fc', Snacks.picker.commands, { desc = 'Find commands' })
+    vim.keymap.set('n', '<leader>fm', Snacks.picker.man, { desc = 'Find man pages' })
+    vim.keymap.set('n', '<leader>fP', Snacks.picker.lazy, { desc = 'Find Plugin Spec' })
+    vim.keymap.set('n', '<leader>f"', Snacks.picker.registers, { desc = 'Find Registers' })
     vim.keymap.set('n', '<leader>e', function()
       Snacks.explorer()
     end, { desc = 'File Explorer' })
@@ -121,39 +124,19 @@ return {
     vim.keymap.set('n', '<leader>gb', Snacks.picker.git_branches, { desc = 'Git Branches' })
     vim.keymap.set('n', '<leader>gl', Snacks.picker.git_log, { desc = 'Git Log' })
     vim.keymap.set('n', '<leader>gL', Snacks.picker.git_log_line, { desc = 'Git Log Line' })
-    vim.keymap.set('n', '<leader>gs', Snacks.picker.git_status, { desc = 'Git Status' })
+    -- vim.keymap.set('n', '<leader>gs', Snacks.picker.git_status, { desc = 'Git Status' }) TODO: decide on this or neogit
     vim.keymap.set('n', '<leader>gS', Snacks.picker.git_stash, { desc = 'Git Stash' })
     vim.keymap.set('n', '<leader>gd', Snacks.picker.git_diff, { desc = 'Git Diff (Hunks)' })
     vim.keymap.set('n', '<leader>gf', Snacks.picker.git_log_file, { desc = 'Git Log File' })
 
-    -- grep
-    vim.keymap.set('n', '<leader>sb', Snacks.picker.lines, { desc = 'Buffer Lines' })
-    vim.keymap.set('n', '<leader>sB', Snacks.picker.grep_buffers, { desc = 'Grep Open Buffers' })
-    vim.keymap.set('n', '<leader>sg', Snacks.picker.grep, { desc = 'Grep' })
-    vim.keymap.set({ 'n', 'x' }, '<leader>sw', Snacks.picker.grep_word, { desc = 'Visual selection or word' })
-
-    -- search
-    vim.keymap.set('n', '<leader>s"', Snacks.picker.registers, { desc = 'Registers' })
-    vim.keymap.set('n', '<leader>s/', Snacks.picker.search_history, { desc = 'Search History' })
-    vim.keymap.set('n', '<leader>sc', Snacks.picker.command_history, { desc = 'Command History' })
-    vim.keymap.set('n', '<leader>sC', Snacks.picker.commands, { desc = 'Commands' })
-    vim.keymap.set('n', '<leader>sd', Snacks.picker.diagnostics, { desc = 'Diagnostics' })
-    vim.keymap.set('n', '<leader>sD', Snacks.picker.diagnostics_buffer, { desc = 'Buffer Diagnostics' })
-    vim.keymap.set('n', '<leader>si', Snacks.picker.icons, { desc = 'Icons' })
-    vim.keymap.set('n', '<leader>sj', Snacks.picker.jumps, { desc = 'Jumps' })
-    vim.keymap.set('n', '<leader>sk', Snacks.picker.keymaps, { desc = 'Keymaps' })
-    vim.keymap.set('n', '<leader>sm', Snacks.picker.man, { desc = 'Man Pages' })
-    vim.keymap.set('n', '<leader>sp', Snacks.picker.lazy, { desc = 'Search for Plugin Spec' })
-
     -- LSP
+    -- TODO: add gi/go for incoming/outcoming calls
     vim.keymap.set('n', 'gd', Snacks.picker.lsp_definitions, { desc = 'Goto Definition' })
     vim.keymap.set('n', 'gD', Snacks.picker.lsp_declarations, { desc = 'Goto Declaration' })
     vim.keymap.set('n', 'gr', Snacks.picker.lsp_references, { desc = 'Goto References' })
     vim.keymap.set('n', 'gI', Snacks.picker.lsp_implementations, { desc = 'Goto Implementation' })
     vim.keymap.set('n', 'gy', Snacks.picker.lsp_type_definitions, { desc = 'Goto Type Definition (tYpe)' })
-    -- TODO: add gi/go for incoming/outcoming calls
-    vim.keymap.set('n', '<leader>ss', Snacks.picker.lsp_symbols, { desc = 'Search Symbols' })
-    vim.keymap.set('n', '<leader>sS', Snacks.picker.lsp_workspace_symbols, { desc = 'Search Workspace Symbols' })
-    vim.keymap.set('n', '<leader>sS', Snacks.picker.lsp_workspace_symbols, { desc = 'Search Workspace Symbols' })
+    vim.keymap.set('n', '<leader>fs', Snacks.picker.lsp_symbols, { desc = 'Search Symbols' })
+    vim.keymap.set('n', '<leader>fS', Snacks.picker.lsp_workspace_symbols, { desc = 'Search Workspace Symbols' })
   end,
 }
