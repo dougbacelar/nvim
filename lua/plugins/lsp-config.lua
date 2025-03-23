@@ -81,6 +81,7 @@ return {
       ts_ls = {},
       html = {},
       kotlin_language_server = {},
+      gopls = {},
 
       lua_ls = {
         -- cmd = {...},

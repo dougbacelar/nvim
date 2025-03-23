@@ -38,7 +38,7 @@ done
 echo "all homebrew installations complete."
 
 # install gopls (the official Go language server), can also do via homebrew but prefer it here
-go install golang.org/x/tools/gopls@latest
+go install golang.org/x/tools/gopls@latest # don't forget to add go to PATH on .zprofile or .zshrc
 
 # ---
 # manually install tools that are unavailable in homebrew
