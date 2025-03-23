@@ -27,6 +27,7 @@ packages=(
   sqlite3                         # sqlite CLI used by snacks.picker neovim plugin
   fd                              # quicker finder required for snacks.picker to search for projects
   rg                              # quicker grep, required for snacks.picker
+  go                              # install go compiler, package manager, etc
 )
 
 for item in "${packages[@]}"; do
@@ -36,6 +37,8 @@ done
 
 echo "all homebrew installations complete."
 
+# install gopls (the official Go language server), can also do via homebrew but prefer it here
+go install golang.org/x/tools/gopls@latest
 
 # ---
 # manually install tools that are unavailable in homebrew
