@@ -67,7 +67,12 @@ return {
       basedpyright = {
         settings = {
           basedpyright = {
-            typeCheckingMode = 'recommended',
+            -- typeCheckingMode = 'all',
+            -- typeCheckingMode = 'recommended',
+            -- typeCheckingMode = 'strict',
+            -- typeCheckingMode = 'standard',
+            typeCheckingMode = 'basic',
+            -- typeCheckingMode = 'off',
           },
         },
       },
