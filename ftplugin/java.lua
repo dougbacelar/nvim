@@ -53,7 +53,7 @@ local config = {
 
     -- Eclipse jdtls location
     '-jar',
-    jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_1.6.1000.v20250131-0606.jar',
+    jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
     -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
     '-configuration',
     jdtls_prefix .. '/libexec/config_mac',
