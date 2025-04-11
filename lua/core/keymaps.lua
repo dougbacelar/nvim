@@ -41,4 +41,4 @@ vim.keymap.set('n', '<c-.>', '<c-w>5>', { desc = 'Increase Window Width' })
 -- vim.keymap.set("n", "<M-s>", "<C-W>-")
 
 -- move selected text to blackhole register when paste on top of it
-vim.keymap.set('x', 'p', '"_dp', { silent = true })
+vim.keymap.set('x', 'p', '"_dP', { silent = true })
