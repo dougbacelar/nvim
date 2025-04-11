@@ -41,7 +41,9 @@ local config = {
     '-Dlog.protocol=true',
     '-Dlog.level=ALL',
     -- download lombok from https://projectlombok.org/downloads/lombok.jar if needed and uncomment below
-    -- '-javaagent:' .. vim.env.HOME .. '/.local/share/nvim/mason/share/jdtls/lombok.jar',
+    '-javaagent:'
+      .. vim.env.HOME
+      .. '/dev/lombok/lombok-1.18.38.jar',
     '-Xmx4g',
     '--add-modules=ALL-SYSTEM',
     '--add-opens',

@@ -80,3 +80,12 @@ install_vsix "java-test" "$java_test_url"
 java_debug_version="0.58.1"
 java_debug_url="https://open-vsx.org/api/vscjava/vscode-java-debug/${java_debug_version}/file/vscjava.vscode-java-debug-${java_debug_version}.vsix"
 install_vsix "java-debug" "$java_debug_url"
+
+# --- Lombok installation ---
+lombok_version="1.18.38"
+lombok_jar="lombok-${lombok_version}.jar"
+lombok_dir="$dev_dir/lombok"
+lombok_url="https://projectlombok.org/downloads/$lombok_jar"
+mkdir -p "$lombok_dir"
+echo "downloading lombok from ${lombok_url}..."
+curl -L -o "$lombok_dir/$lombok_jar" $lombok_url
