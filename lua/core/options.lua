@@ -47,3 +47,6 @@ vim.opt.expandtab = true
 vim.opt.foldlevelstart = 99
 -- ensures folds are saved in views autocmds
 vim.opt.viewoptions = 'folds,cursor'
+
+-- diagnostic options
+vim.diagnostic.config { jump = { float = true } }

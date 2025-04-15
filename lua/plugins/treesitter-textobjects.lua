@@ -100,19 +100,23 @@ return {
       vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_opposite)
 
       -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-      vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
-      vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
-      vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
-      vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
+      vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f_expr, { expr = true })
+      vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F_expr, { expr = true })
+      vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t_expr, { expr = true })
+      vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true })
 
       -- make diagnostic navigation repeatable
-      local next_diagnostic_repeat, prev_diagnostic_repeat = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-      vim.keymap.set({ 'n', 'x', 'o' }, ']d', next_diagnostic_repeat, { desc = 'Next Diagnostic' })
-      vim.keymap.set({ 'n', 'x', 'o' }, '[d', prev_diagnostic_repeat, { desc = 'Previous Diagnostic' })
+      -- local next_diagnostic_repeat, prev_diagnostic_repeat = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+      -- vim.keymap.set({ 'n', 'x', 'o' }, ']d', next_diagnostic_repeat, { desc = 'Next Diagnostic' })
+      -- vim.keymap.set({ 'n', 'x', 'o' }, '[d', prev_diagnostic_repeat, { desc = 'Previous Diagnostic' })
 
       -- make hunk navigation repeatable
       local gs = require 'gitsigns'
-      local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+      local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(function()
+        return gs.nav_hunk 'next'
+      end, function()
+        return gs.nav_hunk 'prev'
+      end)
       vim.keymap.set({ 'n', 'x', 'o' }, ']h', next_hunk_repeat, { desc = 'Next Hunk' })
       vim.keymap.set({ 'n', 'x', 'o' }, '[h', prev_hunk_repeat, { desc = 'Previous Hunk' })
     end,
