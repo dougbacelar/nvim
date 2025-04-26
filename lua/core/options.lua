@@ -23,7 +23,7 @@ vim.opt.smartcase = true
 --  See :help 'list'
 --  and :help 'listchars'
 vim.opt.list = true
-vim.opt.listchars = { trail = '»', nbsp = '␣' }
+vim.opt.listchars = { tab = '  ', trail = '»', nbsp = '␣' }
 -- highlight current cursor line
 vim.opt.cursorline = true
 -- minimal number of screen lines to keep above and below the cursor.
