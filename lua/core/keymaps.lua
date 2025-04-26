@@ -19,10 +19,6 @@ vim.keymap.set('n', 'yN', ':let @+ = expand("%:t")<CR>', { noremap = true, silen
 vim.keymap.set('n', 'yP', ':let @+ = expand("%:p")<CR>', { noremap = true, silent = true, desc = 'Yank File Path' })
 
 -- buffers
--- go to the previous buffer
-vim.keymap.set('n', '<leader>pb', ':bprevious<CR>', { desc = 'Previous Buffer' })
--- go to the next buffer
-vim.keymap.set('n', '<leader>nb', ':bnext<CR>', { desc = 'Next Buffer' })
 -- close the current buffer
 vim.keymap.set('n', '<leader>db', ':bdelete<CR>', { desc = 'Delete Buffer' })
 
