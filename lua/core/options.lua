@@ -49,4 +49,4 @@ vim.opt.foldlevelstart = 99
 vim.opt.viewoptions = 'folds,cursor'
 
 -- diagnostic options
-vim.diagnostic.config { jump = { float = true } }
+vim.diagnostic.config { jump = { float = true }, virtual_text = { current_line = true } }
