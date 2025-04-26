@@ -132,7 +132,7 @@ return {
     -- LSP
     -- TODO: add gi/go for incoming/outcoming calls
     vim.keymap.set('n', 'gd', Snacks.picker.lsp_definitions, { desc = 'Goto Definition' })
-    vim.keymap.set('n', 'gr', Snacks.picker.lsp_references, { desc = 'Goto References' })
+    -- vim.keymap.set('n', 'gr', Snacks.picker.lsp_references, { desc = 'Goto References' }) comment for now to try out new default `grr`
     vim.keymap.set('n', 'gI', Snacks.picker.lsp_implementations, { desc = 'Goto Implementation' })
     vim.keymap.set('n', 'gy', Snacks.picker.lsp_type_definitions, { desc = 'Goto Type Definition (tYpe)' })
     vim.keymap.set('n', '<leader>fs', Snacks.picker.lsp_symbols, { desc = 'Search Symbols' })
