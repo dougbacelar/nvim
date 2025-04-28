@@ -2,7 +2,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     -- TODO: cant get this lazy to work, load takes ~10ms
-    lazy = true,
+    event = 'VeryLazy',
     config = function()
       require('nvim-treesitter.configs').setup {
 
