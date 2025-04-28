@@ -124,7 +124,7 @@ return {
     vim.keymap.set('n', '<leader>gb', Snacks.picker.git_branches, { desc = 'Git Branches' })
     vim.keymap.set('n', '<leader>gl', Snacks.picker.git_log, { desc = 'Git Log' })
     vim.keymap.set('n', '<leader>gL', Snacks.picker.git_log_line, { desc = 'Git Log Line' })
-    -- vim.keymap.set('n', '<leader>gs', Snacks.picker.git_status, { desc = 'Git Status' }) TODO: decide on this or neogit
+    vim.keymap.set('n', '<leader>gs', Snacks.picker.git_status, { desc = 'Git Status' })
     vim.keymap.set('n', '<leader>gS', Snacks.picker.git_stash, { desc = 'Git Stash' })
     vim.keymap.set('n', '<leader>gd', Snacks.picker.git_diff, { desc = 'Git Diff (Hunks)' })
     vim.keymap.set('n', '<leader>gf', Snacks.picker.git_log_file, { desc = 'Git Log File' })
