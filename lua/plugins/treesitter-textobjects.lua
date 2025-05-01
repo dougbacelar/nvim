@@ -1,7 +1,7 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    -- TODO: cant get this lazy to work, load takes ~10ms
+    -- if lazy loading causes issues or conflicts with mini.ai, disable it here
     event = 'VeryLazy',
     config = function()
       require('nvim-treesitter.configs').setup {
