@@ -5,31 +5,21 @@ return {
   dependencies = {
     -- useful status updates for LSP.
     { 'j-hui/fidget.nvim', opts = {} },
-
-    -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    { 'folke/neodev.nvim', opts = {} },
   },
   config = function()
     --  this function gets run when an LSP attaches to a particular buffer.
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('doug-lsp-attach', { clear = true }),
       callback = function(event)
-        -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'LSP: Rename' }) -- try new default grn
-        -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: Code Action' }) -- try new default gra
-
-        -- The following two autocommands are used to highlight references of the
-        -- word under your cursor when your cursor rests there for a little while.
-        --    See `:help CursorHold` for information about when this is executed
-        --
-        -- When you move your cursor, the highlights will be cleared (the second autocommand).
+        -- highlights references of the word under your cursor when your cursor rests there for a little while.
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
             callback = vim.lsp.buf.document_highlight,
           })
 
+          -- clear the highlights when the cursor is moved
           vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
             buffer = event.buf,
             callback = vim.lsp.buf.clear_references,
@@ -53,8 +43,6 @@ return {
     --        for example, to see the options for `lua_ls`, go to: https://luals.github.io/wiki/settings/
     local servers = {
       -- skip setting up java lsp(jdtls) here to avoid having two processes attached
-      -- clangd = {},
-      -- gopls = {},
       basedpyright = {
         settings = {
           basedpyright = {
@@ -67,18 +55,9 @@ return {
           },
         },
       },
-      -- rust_analyzer = {},
-      -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-      --
-      -- some languages (like typescript) have entire language plugins that can be useful:
-      --    https://github.com/pmizio/typescript-tools.nvim
-      --
-      -- but for many setups, the LSP (`ts_ls`) will work just fine
-      ts_ls = {},
+      gopls = {},
       html = {},
       kotlin_language_server = {},
-      gopls = {},
-
       lua_ls = {
         -- cmd = {...},
         -- filetypes { ...},
@@ -93,6 +72,7 @@ return {
           },
         },
       },
+      ts_ls = {},
     }
 
     for server_name, opts in pairs(servers) do
