@@ -13,7 +13,10 @@ vim.opt.number = false
 -- experiment with relative numbers on by default
 vim.opt.relativenumber = true
 -- tells nvim to use the "+" register. This will share the clipboard between nvim/MacOS
-vim.opt.clipboard = 'unnamedplus'
+-- schedule the setting after `UiEnter` because it can increase startup-time if pbcopy is slow: https://github.com/nvim-lua/kickstart.nvim/pull/1049
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
 -- indents wrapped lines so they are easier to read
 vim.opt.breakindent = true
 -- makes search case-insensitive when all letters are lower case. If at least a single letter is upper case, the search will become case-sensitive
