@@ -5,6 +5,9 @@ return {
   config = function()
     local conform = require 'conform'
     conform.setup {
+      default_format_opts = {
+        timeout_ms = 2000, -- increase timeout, default is 1000ms
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         -- conform will run multiple formatters sequentially
@@ -22,6 +25,11 @@ return {
         graphql = { 'prettierd', 'prettier', stop_after_first = true },
         sql = { 'sql_formatter' },
         java = { lsp_format = 'prefer' },
+      },
+      formatters = {
+        prettierd = {
+          timeout_ms = 10000, -- for dealing with big json files, etc
+        },
       },
       -- format on save is not working due to auto save, moved format code to auto-save autocmd
       -- fomart_on_save = { lsp_fallback = true, async = false, timeout_ms = 500 },
