@@ -50,7 +50,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'LspAttach' }, {
     for _, client in pairs(lsp_clients) do
       if client.server_capabilities.foldingRangeProvider then
         vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-        vim.notify('using lsp folding for buffer ' .. buf)
         return
       end
     end
