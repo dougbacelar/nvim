@@ -57,27 +57,3 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'LspAttach' }, {
     vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
   end,
 })
-vim.api.nvim_create_autocmd('BufWinLeave', {
-  desc = 'save folds when leaving a buffer',
-  group = folding_group,
-  pattern = '?*',
-  callback = function()
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if vim.fn.filewritable(bufname) == 0 then
-      -- avoid trying to make views when navigating out of non-writable LSP files
-      return
-    end
-    vim.cmd.mkview {}
-  end,
-})
-vim.api.nvim_create_autocmd('BufWinEnter', {
-  desc = 'restore folds when re-entering a buffer',
-  group = folding_group,
-  pattern = '?*',
-  callback = function()
-    vim.schedule(function()
-      -- delay loadview slightly to avoid conflicts with above folding autocmd
-      vim.cmd.loadview { mods = { emsg_silent = true } }
-    end)
-  end,
-})
