@@ -40,20 +40,22 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'LspAttach' }, {
   desc = 'set folding based on LSP if available and fallback to TreeSitter otherwise',
   group = folding_group,
   callback = function()
-    -- TODO: Un-comment this when LSP folding reaches stable release! https://github.com/neovim/neovim/blob/a9cdf76e3a142c78b2b5da58c428e15e31cb0a15/runtime/lua/vim/lsp/_folding_range.lua
-    -- local buf = vim.api.nvim_get_current_buf()
-    -- local lsp_clients = vim.lsp.get_clients { bufnr = buf }
+    vim.wo.foldmethod = 'expr'
+
+    -- Check for LSP folding support (available in Neovim 0.11+)
+    local buf = vim.api.nvim_get_current_buf()
+    local lsp_clients = vim.lsp.get_clients { bufnr = buf }
 
     -- check for lsp folding provider and return early if found
-    -- for _, client in pairs(lsp_clients) do
-    --   if client.server_capabilities.foldingRangeProvider then
-    --     vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    --     vim.notify('using lsp folding for buffer ' .. buf)
-    --     return
-    --   end
-    -- end
+    for _, client in pairs(lsp_clients) do
+      if client.server_capabilities.foldingRangeProvider then
+        vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+        vim.notify('using lsp folding for buffer ' .. buf)
+        return
+      end
+    end
 
-    vim.wo.foldmethod = 'expr'
+    -- Fallback to Treesitter folding if LSP doesn't support it
     vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
   end,
 })
