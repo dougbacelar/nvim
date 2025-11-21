@@ -2,7 +2,6 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       -- useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
@@ -36,52 +35,22 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      --  can add override configuration in the following tables. Available keys are:
-      --  - cmd: Override the default command used to start the server
-      --  - filetypes: Override the default list of associated filetypes for the server
-      --  - capabilities: Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings: Override the default settings passed when initializing the server.
-      --        for example, to see the options for `lua_ls`, go to: https://luals.github.io/wiki/settings/
+      -- Set global capabilities for all LSP servers
+      vim.lsp.config('*', { capabilities = capabilities })
+
+      -- Enable LSP servers
+      -- Server-specific configurations are in lsp/<server_name>.lua
+      -- These files override/extend the defaults from nvim-lspconfig
       local servers = {
-        -- skip setting up java lsp(jdtls) here to avoid having two processes attached
-        basedpyright = {
-          settings = {
-            basedpyright = {
-              -- typeCheckingMode = 'all',
-              -- typeCheckingMode = 'recommended',
-              -- typeCheckingMode = 'strict',
-              -- typeCheckingMode = 'standard',
-              typeCheckingMode = 'basic',
-              -- typeCheckingMode = 'off',
-            },
-          },
-        },
-        gopls = {},
-        html = {},
-        kotlin_language_server = {},
-        lua_ls = {
-          -- cmd = {...},
-          -- filetypes { ...},
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              diagnostics = { disable = { 'missing-fields' } },
-            },
-          },
-        },
-        ts_ls = {},
+        'basedpyright',
+        'gopls',
+        'html',
+        'lua_ls',
+        'ts_ls',
       }
 
-      for server_name, opts in pairs(servers) do
-        -- this handles overriding only values explicitly passed
-        -- by the server configuration above. Useful when disabling
-        -- certain features of an LSP (for example, turning off formatting for tsserver)
-        opts.capabilities = vim.tbl_deep_extend('force', {}, capabilities, opts.capabilities or {})
-        require('lspconfig')[server_name].setup(opts)
+      for _, server_name in ipairs(servers) do
+        vim.lsp.enable(server_name)
       end
     end,
   },
