@@ -81,7 +81,7 @@ return {
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for tsserver)
         opts.capabilities = vim.tbl_deep_extend('force', {}, capabilities, opts.capabilities or {})
-        vim.lsp.config(server_name, opts)
+        require('lspconfig')[server_name].setup(opts)
       end
     end,
   },
