@@ -9,7 +9,7 @@ local bundles = {
 }
 
 -- Needed for running/debugging unit tests
-vim.list_extend(bundles, vim.split(vim.fn.glob(vim.env.HOME .. '/dev/java-test/extension/server/*.jar', 1), '\n'))
+vim.list_extend(bundles, vim.split(vim.fn.glob(vim.env.HOME .. '/dev/java-test/extension/server/*.jar', true), '\n'))
 
 local jdtls_prefix = vim.fn.trim(vim.fn.system 'brew --prefix jdtls')
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
@@ -167,7 +167,10 @@ local config = {
 
 -- Needed for debugging
 config['on_attach'] = function(client, bufnr)
-  jdtls.setup_dap { hotcodereplace = 'auto' }
+  jdtls.setup_dap {
+    hotcodereplace = 'auto',
+    config_overrides = {},
+  }
   require('jdtls.dap').setup_dap_main_class_configs()
 end
 

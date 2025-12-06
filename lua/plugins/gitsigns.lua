@@ -32,7 +32,7 @@ return {
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git stage hunk' })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git reset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git stage buffer' })
-        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'git undo stage hunk' })
+        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git undo stage hunk' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git reset buffer' })
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git preview hunk' })
         map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git blame line' })
@@ -42,7 +42,7 @@ return {
         end, { desc = 'git diff against last commit' })
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = 'Toggle git show blame line' })
-        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = 'Toggle git show deleted' })
+        map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = 'Toggle git show deleted' })
       end,
     },
   },
