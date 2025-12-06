@@ -16,11 +16,9 @@ packages=(
   basedpyright                    # python LSP server forked from pyright
   lua-language-server             # language server for lua (used for lua_ls)
   jdtls                           # java language server (eclipse.jdt.ls)
-  kotlin-language-server          # language server for kotlin
   # linters and formatters
   prettierd                       # javascript's formatter, prettier as a daemon
   stylua                          # lua code formatter
-  ktlint                          # kotlin linter/formatter
   # tools
   openjdk                         # install jdk for running jdtls
   fzf                             # add `source <(fzf --zsh)` to .zprofile

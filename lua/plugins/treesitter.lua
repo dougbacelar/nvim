@@ -20,7 +20,6 @@ return {
         'javascript',
         'typescript',
         'java',
-        'kotlin',
       },
 
       -- Install parsers synchronously (only applied to `ensure_installed`)
