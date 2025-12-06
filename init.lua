@@ -31,6 +31,5 @@ require('lazy').setup('plugins', {
 
 -- modules in core are not loaded by Lazy
 require 'core.options'
-require 'core.netrw-config'
 require 'core.autocmds'
 require 'core.keymaps'
