@@ -6,7 +6,7 @@ brew update
 # list of packages to install via homebrew.
 packages=(
   # window management
-  yabai                           # window manager for macos
+  asmvik/formulae/yabai           # window manager for macos
   skhd                            # shortcut daemon for macos
   # ide
   neovim
