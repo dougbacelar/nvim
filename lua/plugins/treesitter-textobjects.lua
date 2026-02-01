@@ -4,20 +4,12 @@ return {
     branch = 'main',
     event = 'VeryLazy',
     config = function()
-      local textobjects = require 'nvim-treesitter-textobjects'
-
-      -- Setup textobjects
-      textobjects.setup {
-        select = {
-          lookahead = true,
-          include_surrounding_whitespace = false,
-        },
-      }
+      local select = require 'nvim-treesitter-textobjects.select'
 
       -- Helper function to create textobject keymaps
       local function map_textobj(keys, query, desc)
         vim.keymap.set({ 'x', 'o' }, keys, function()
-          textobjects.select.select_textobject(query, 'textobjects')
+          select.select_textobject(query, 'textobjects')
         end, { desc = desc })
       end
 
