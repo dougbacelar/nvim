@@ -1,53 +1,41 @@
 -- AST, syntax highlighting and stuff
 return {
   'nvim-treesitter/nvim-treesitter',
-  event = { 'BufReadPost', 'BufNewFile' },
+  branch = 'main',
+  lazy = false, -- main branch does not support lazy-loading
+  build = ':TSUpdate',
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
-  build = ':TSUpdate',
   config = function()
-    require('nvim-treesitter.configs').setup {
-      modules = {},
-      ignore_install = {},
-      ensure_installed = {
-        'bash',
-        'c',
-        'html',
-        'lua',
-        'markdown',
-        'vim',
-        'vimdoc',
-        'query',
-        'javascript',
-        'typescript',
-        'java',
-      },
-
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
-      -- Automatically install missing parsers when entering buffer
-      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-      auto_install = true,
-      ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-      -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-      highlight = {
-        enable = true,
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = '<C-space>',
-          node_incremental = '<C-space>',
-          scope_incremental = false,
-          node_decremental = '<bs>',
-        },
-      },
+    -- Install parsers (runs asynchronously, no-op if already installed)
+    require('nvim-treesitter').install {
+      'bash',
+      'c',
+      'html',
+      'lua',
+      'markdown',
+      'vim',
+      'vimdoc',
+      'query',
+      'javascript',
+      'typescript',
+      'java',
+      'swift',
     }
+
+    -- Enable treesitter highlighting for all filetypes
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = '*',
+      callback = function()
+        local buf = vim.api.nvim_get_current_buf()
+        -- Only enable if parser is available
+        pcall(vim.treesitter.start, buf)
+      end,
+    })
+
+    -- Note: Incremental selection was removed in the main branch rewrite
+    -- You can use textobjects (am, im, etc.) for smart selections instead
+    -- This will be available in v0.12: https://neovim.io/doc/user/lsp.html#v_an
   end,
 }

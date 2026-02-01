@@ -55,6 +55,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'LspAttach' }, {
     end
 
     -- Fallback to Treesitter folding if LSP doesn't support it
-    vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
   end,
 })

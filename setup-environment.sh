@@ -10,6 +10,7 @@ packages=(
   skhd                            # shortcut daemon for macos
   # ide
   neovim
+  tree-sitter-cli                 # CLI for compiling tree-sitter parsers (core nvim-treesitter requirement)
   # lsps
   typescript-language-server      # aka ts_ls. LSP implementation for TypeScript wrapping tsserver.
   vscode-langservers-extracted    # collection of language servers extracted from vscode (e.g., for html)
