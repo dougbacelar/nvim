@@ -3,14 +3,6 @@ local jdtls = require 'jdtls'
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
 
--- Needed for debugging
-local bundles = {
-  vim.fn.glob(vim.env.HOME .. '/dev/java-debug/extension/server/com.microsoft.java.debug.plugin-0.53.1.jar'),
-}
-
--- Needed for running/debugging unit tests
-vim.list_extend(bundles, vim.split(vim.fn.glob(vim.env.HOME .. '/dev/java-test/extension/server/*.jar', true), '\n'))
-
 local jdtls_prefix = vim.fn.trim(vim.fn.system 'brew --prefix jdtls')
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -41,9 +33,9 @@ local config = {
     '-Dlog.protocol=true',
     '-Dlog.level=ALL',
     -- download lombok from https://projectlombok.org/downloads/lombok.jar if needed and uncomment below
-    '-javaagent:'
-      .. vim.env.HOME
-      .. '/dev/lombok/lombok-1.18.38.jar',
+    -- '-javaagent:'
+    --   .. vim.env.HOME
+    --   .. '/dev/lombok/lombok-1.18.38.jar',
     '-Xmx4g',
     '--add-modules=ALL-SYSTEM',
     '--add-opens',
@@ -140,7 +132,6 @@ local config = {
         'org',
       },
     },
-    extendedClientCapabilities = jdtls.extendedClientCapabilities,
     sources = {
       organizeImports = {
         starThreshold = 9999,
@@ -160,19 +151,9 @@ local config = {
     allow_incremental_sync = true,
   },
   init_options = {
-    -- References the bundles defined above to support Debugging and Unit Testing
-    bundles = bundles,
+    extendedClientCapabilities = jdtls.extendedClientCapabilities,
   },
 }
-
--- Needed for debugging
-config['on_attach'] = function(client, bufnr)
-  jdtls.setup_dap {
-    hotcodereplace = 'auto',
-    config_overrides = {},
-  }
-  require('jdtls.dap').setup_dap_main_class_configs()
-end
 
 -- This starts a new client & server, or attaches to an existing client & server based on the `root_dir`.
 jdtls.start_or_attach(config)
