@@ -4,6 +4,11 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
 
 local jdtls_prefix = vim.fn.trim(vim.fn.system 'brew --prefix jdtls')
+local launcher = vim.fn.glob(jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_*.jar', false, true)[1]
+if not launcher then
+  vim.notify('jdtls launcher jar not found under ' .. jdtls_prefix, vim.log.levels.ERROR)
+  return
+end
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
   -- The command that starts the language server
@@ -45,7 +50,7 @@ local config = {
 
     -- Eclipse jdtls location
     '-jar',
-    jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
+    launcher,
     -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
     '-configuration',
     jdtls_prefix .. '/libexec/config_mac',

@@ -22,9 +22,8 @@
       needed before upgrading.
 
 - [ ] **Upgrade jdtls via Homebrew** — installed `1.46.1`, latest stable is `1.57.0` (11 versions
-      behind). Run `brew upgrade jdtls`. After upgrading, update the hardcoded launcher jar
-      filename in `ftplugin/java.lua` to match the new version (currently
-      `org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar`).
+      behind). Run `brew upgrade jdtls`. The launcher jar is now detected dynamically so no
+      config changes are needed after upgrading.
 
 - [ ] **Update `nvim-treesitter-textobjects` after upgrading** — the plugin does not use the
       removed `all = true` option in `iter_matches()`, so that specific breaking change is a
