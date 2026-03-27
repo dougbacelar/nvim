@@ -6,12 +6,12 @@
       used (`start_or_attach`, `setup_dap`, `setup_dap_main_class_configs`) are stable. See
       sub-items below for the actual work identified.
 
-- [ ] **Remove java-debug and java-test from `ftplugin/java.lua`** — these are not used anymore.
+- [x] **Remove java-debug and java-test from `ftplugin/java.lua`** — these are not used anymore.
       Remove the `bundles` table (lines 7–12), the `nvim-dap` setup in `on_attach`, and the
       `nvim-dap`, `nvim-dap-ui`, `nvim-dap-virtual-text`, and `nvim-jdtls` DAP-related plugins.
       Also remove `lua/plugins/dap-ui.lua` and its keymaps.
 
-- [ ] **Fix `extendedClientCapabilities` placement** (`ftplugin/java.lua`) — currently inside
+- [x] **Fix `extendedClientCapabilities` placement** (`ftplugin/java.lua`) — currently inside
       `config.settings` (silently ignored by the server); move it to `config.init_options`. The
       plugin auto-fills the default so nothing is broken, but the placement is wrong.
 
@@ -21,9 +21,7 @@
       project's `lombok.config` and add `lombok.copyJacksonAnnotationsToAccessors = true` if
       needed before upgrading.
 
-- [ ] **Upgrade jdtls via Homebrew** — installed `1.46.1`, latest stable is `1.57.0` (11 versions
-      behind). Run `brew upgrade jdtls`. The launcher jar is now detected dynamically so no
-      config changes are needed after upgrading.
+- [x] **Upgrade jdtls via Homebrew** — upgraded from `1.46.1` to `1.57.0`.
 
 - [ ] **Update `nvim-treesitter-textobjects` after upgrading** — the plugin does not use the
       removed `all = true` option in `iter_matches()`, so that specific breaking change is a
