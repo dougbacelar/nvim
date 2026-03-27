@@ -1,12 +1,10 @@
 -- language server protocol stuff
 return {
   {
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
-    },
-    config = function()
+    'j-hui/fidget.nvim',
+    config = function(_, opts)
+      require('fidget').setup(opts)
+
       --  this function gets run when an LSP attaches to a particular buffer.
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('doug-lsp-attach', { clear = true }),
@@ -40,18 +38,9 @@ return {
 
       -- Enable LSP servers
       -- Server-specific configurations are in lsp/<server_name>.lua
-      -- These files override/extend the defaults from nvim-lspconfig
-      local servers = {
-        'basedpyright',
-        'gopls',
-        'html',
-        'lua_ls',
-        'sourcekit',
-        'ts_ls',
-      }
-
-      for _, server_name in ipairs(servers) do
-        vim.lsp.enable(server_name)
+      local servers = { 'basedpyright', 'gopls', 'html', 'lua_ls', 'sourcekit', 'ts_ls' }
+      for _, name in ipairs(servers) do
+        vim.lsp.enable(name)
       end
     end,
   },

@@ -36,12 +36,12 @@
 
 ## Should Do (cleanup / future-proofing)
 
-- [ ] **Drop `nvim-lspconfig` as a dependency** — the config already uses `vim.lsp.config()` +
+- [x] **Drop `nvim-lspconfig` as a dependency** — the config already uses `vim.lsp.config()` +
       `vim.lsp.enable()` with server files in `lsp/`. The only remaining value from lspconfig is
       the server command definitions (paths, default args). These can be replicated in the `lsp/`
       files or sourced from the bundled configs in 0.12. Removing lspconfig simplifies the setup.
 
-- [ ] **Add `lsp/` configs for remaining servers** — only `basedpyright` has a file in `lsp/`.
+- [x] **Add `lsp/` configs for remaining servers** — only `basedpyright` has a file in `lsp/`.
       Create minimal files for `gopls`, `html`, `lua_ls`, `sourcekit`, and `ts_ls` so their
       configs are explicit and lspconfig can be dropped cleanly.
 
