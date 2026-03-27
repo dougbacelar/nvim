@@ -46,6 +46,7 @@ return {
         'gopls',
         'html',
         'lua_ls',
+        'sourcekit',
         'ts_ls',
       }
 
