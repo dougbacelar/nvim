@@ -9,54 +9,55 @@ if not launcher then
   vim.notify('jdtls launcher jar not found under ' .. jdtls_prefix, vim.log.levels.ERROR)
   return
 end
+local lombok_jar = vim.fn.glob(vim.env.HOME .. '/dev/lombok/lombok-*.jar', false, true)[1]
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
-local config = {
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  -- if failing to run LSP, try to run it manually e.g.
-  -- java \
-  -- -Declipse.application=org.eclipse.jdt.ls.core.id1 \
-  -- -Dosgi.bundles.defaultStartLevel=4 \
-  -- -Declipse.product=org.eclipse.jdt.ls.core.product \
-  -- -Dlog.protocol=true \
-  -- -Dlog.level=ALL \
-  -- -Xmx4g \
-  -- --add-modules=ALL-SYSTEM \
-  -- --add-opens java.base/java.util=ALL-UNNAMED \
-  -- --add-opens java.base/java.lang=ALL-UNNAMED \
-  -- -jar /opt/homebrew/opt/jdtls/libexec/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar \
-  -- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
-  -- -data ~/jdtls-workspace/test-files
-  cmd = {
-    -- use specific full path for reliability
-    -- do not change JAVA_HOME to avoid conflicts with work environment
-    -- make sure the version below is enough for running JDTLS!
-    '/opt/homebrew/opt/openjdk@23/bin/java',
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    '-Dosgi.bundles.defaultStartLevel=4',
-    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
-    -- download lombok from https://projectlombok.org/downloads/lombok.jar if needed and uncomment below
-    -- '-javaagent:'
-    --   .. vim.env.HOME
-    --   .. '/dev/lombok/lombok-1.18.38.jar',
-    '-Xmx4g',
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens',
-    'java.base/java.util=ALL-UNNAMED',
-    '--add-opens',
-    'java.base/java.lang=ALL-UNNAMED',
+-- Build cmd separately so we can conditionally insert the lombok javaagent without
+-- creating a nil hole in the array (which would truncate it at that index).
+-- cmd example:
+-- java \
+-- -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+-- -Dosgi.bundles.defaultStartLevel=4 \
+-- -Declipse.product=org.eclipse.jdt.ls.core.product \
+-- -Dlog.protocol=true \
+-- -Dlog.level=ALL \
+-- -Xmx4g \
+-- --add-modules=ALL-SYSTEM \
+-- --add-opens java.base/java.util=ALL-UNNAMED \
+-- --add-opens java.base/java.lang=ALL-UNNAMED \
+-- -jar /opt/homebrew/opt/jdtls/libexec/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar \
+-- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
+-- -data ~/jdtls-workspace/test-files
+local cmd = {
+  -- use specific full path for reliability
+  -- do not change JAVA_HOME to avoid conflicts with work environment
+  -- make sure the version below is enough for running JDTLS!
+  '/opt/homebrew/opt/openjdk@23/bin/java',
+  '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+  '-Dosgi.bundles.defaultStartLevel=4',
+  '-Declipse.product=org.eclipse.jdt.ls.core.product',
+  '-Dlog.protocol=true',
+  '-Dlog.level=ALL',
+  '-Xmx4g',
+  '--add-modules=ALL-SYSTEM',
+  '--add-opens',
+  'java.base/java.util=ALL-UNNAMED',
+  '--add-opens',
+  'java.base/java.lang=ALL-UNNAMED',
 
-    -- Eclipse jdtls location
-    '-jar',
-    launcher,
-    -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
-    '-configuration',
-    jdtls_prefix .. '/libexec/config_mac',
-    '-data',
-    workspace_dir,
-  },
+  -- Eclipse jdtls location
+  '-jar',
+  launcher,
+  -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
+  '-configuration',
+  jdtls_prefix .. '/libexec/config_mac',
+  '-data',
+  workspace_dir,
+}
+if lombok_jar then
+  table.insert(cmd, 7, '-javaagent:' .. lombok_jar)
+end
+local config = {
+  cmd = cmd,
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir

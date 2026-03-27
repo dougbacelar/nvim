@@ -15,7 +15,7 @@
       `config.settings` (silently ignored by the server); move it to `config.init_options`. The
       plugin auto-fills the default so nothing is broken, but the placement is wrong.
 
-- [ ] **Update lombok to 1.18.44** — `~/dev/lombok` does not exist on disk; needs installing.
+- [x] **Update lombok to 1.18.44** — `~/dev/lombok` does not exist on disk; needs installing.
       Three releases behind (1.18.38 → 1.18.44). **Breaking change in 1.18.40**: Jackson
       annotation auto-copying (`@JsonProperty` etc.) is now disabled by default. Check each
       project's `lombok.config` and add `lombok.copyJacksonAnnotationsToAccessors = true` if
@@ -35,6 +35,11 @@
 - [ ] **Run `:checkhealth`** after upgrading and fix any reported issues.
 
 ## Should Do (cleanup / future-proofing)
+
+- [ ] **Investigate upgrading the JDK used to run JDTLS** — currently hardcoded to
+      `openjdk@23` in `ftplugin/java.lua`. Check the minimum JDK version required by the
+      installed JDTLS release and whether a newer openjdk formula (e.g. `openjdk@24`) is
+      available via Homebrew. Update the path if a newer version is suitable.
 
 - [x] **Drop `nvim-lspconfig` as a dependency** — the config already uses `vim.lsp.config()` +
       `vim.lsp.enable()` with server files in `lsp/`. The only remaining value from lspconfig is

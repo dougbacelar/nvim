@@ -65,23 +65,8 @@ install_vsix() {
   fi
 }
 
-# --- vscode-java-test installation ---
-# https://github.com/microsoft/vscode-java-test
-# based on: https://github.com/mason-org/mason-registry/blob/31d2e44bd36de98e8d5f5b9895a1f314e3b40a5b/packages/java-test/package.yaml#L2
-# ---
-java_test_version="0.43.0"
-java_test_url="https://open-vsx.org/api/vscjava/vscode-java-test/${java_test_version}/file/vscjava.vscode-java-test-${java_test_version}.vsix"
-install_vsix "java-test" "$java_test_url"
-
-# --- vscode-java-debug installation ---
-# https://github.com/microsoft/java-debug
-# based on: https://github.com/mason-org/mason-registry/blob/31d2e44bd36de98e8d5f5b9895a1f314e3b40a5b/packages/java-debug-adapter/package.yaml
-java_debug_version="0.58.1"
-java_debug_url="https://open-vsx.org/api/vscjava/vscode-java-debug/${java_debug_version}/file/vscjava.vscode-java-debug-${java_debug_version}.vsix"
-install_vsix "java-debug" "$java_debug_url"
-
 # --- Lombok installation ---
-lombok_version="1.18.38"
+lombok_version="1.18.44"
 lombok_jar="lombok-${lombok_version}.jar"
 lombok_dir="$dev_dir/lombok"
 lombok_url="https://projectlombok.org/downloads/$lombok_jar"
