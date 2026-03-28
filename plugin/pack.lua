@@ -35,25 +35,20 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 -- Immediate setup
 
--- catppuccin (inline — short config)
-require('catppuccin').setup {
-  flavour = 'mocha',
-  transparent_background = false,
-  color_overrides = { mocha = { base = '#000000', mantle = '#000000' } },
-}
-vim.cmd.colorscheme 'catppuccin-mocha'
+-- catppuccin
+require 'config.catppuccin'
 
 -- fidget + LSP
-require 'plugins.lsp'
+require 'config.lsp'
 
 -- snacks
-require 'plugins.snacks'
+require 'config.snacks'
 
 -- treesitter
-require 'plugins.treesitter'
+require 'config.treesitter'
 
 -- mini.files
-require('plugins.mini').setup_files()
+require('config.mini').setup_files()
 
 -- FileType lua → lazydev
 vim.api.nvim_create_autocmd('FileType', {
@@ -68,17 +63,17 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
   once = true,
   callback = function()
-    require 'plugins.conform'
-    require 'plugins.gitsigns'
-    require('plugins.mini').setup_misc()
+    require 'config.conform'
+    require 'config.gitsigns'
+    require('config.mini').setup_misc()
   end,
 })
 
 -- VeryLazy equivalent → vim.schedule
 vim.schedule(function()
-  require 'plugins.lualine'
-  require('plugins.mini').setup_ai()
-  require('plugins.mini').setup_surround()
-  require 'plugins.which-key'
-  require 'plugins.treesitter-textobjects'
+  require 'config.lualine'
+  require('config.mini').setup_ai()
+  require('config.mini').setup_surround()
+  require 'config.which-key'
+  require 'config.treesitter-textobjects'
 end)
