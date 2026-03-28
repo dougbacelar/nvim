@@ -23,18 +23,22 @@ return {
               callback = vim.lsp.buf.clear_references,
             })
           end
+
+          vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
         end,
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP Specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      -- Manually trigger LSP completion (replaces cmp's <C-Space>).
+      -- vim.lsp.completion.trigger only exists in Neovim 0.12+; use omnifunc on 0.11.
+      vim.keymap.set('i', '<C-Space>', '<C-x><C-o>')
+
+      -- Confirm with <CR> when popup is visible; otherwise insert a newline
+      vim.keymap.set('i', '<CR>', function()
+        return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
+      end, { expr = true })
 
       -- Set global capabilities for all LSP servers
-      vim.lsp.config('*', { capabilities = capabilities })
+      vim.lsp.config('*', { capabilities = vim.lsp.protocol.make_client_capabilities() })
 
       -- Enable LSP servers
       -- Server-specific configurations are in lsp/<server_name>.lua
