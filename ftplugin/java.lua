@@ -10,6 +10,11 @@ if not launcher then
   return
 end
 local lombok_jar = vim.fn.glob(vim.env.HOME .. '/dev/lombok/lombok-*.jar', false, true)[1]
+local jdtls_java = vim.fn.trim(vim.fn.system '/usr/libexec/java_home -v 25+') .. '/bin/java'
+if not vim.uv.fs_stat(jdtls_java) then
+  vim.notify('No JDK 25+ found via /usr/libexec/java_home. JDTLS requires Java 25+.', vim.log.levels.ERROR)
+  return
+end
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 -- Build cmd separately so we can conditionally insert the lombok javaagent without
 -- creating a nil hole in the array (which would truncate it at that index).
@@ -28,10 +33,11 @@ local lombok_jar = vim.fn.glob(vim.env.HOME .. '/dev/lombok/lombok-*.jar', false
 -- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
 -- -data ~/jdtls-workspace/test-files
 local cmd = {
-  -- use specific full path for reliability
-  -- do not change JAVA_HOME to avoid conflicts with work environment
-  -- make sure the version below is enough for running JDTLS!
-  '/opt/homebrew/opt/openjdk@23/bin/java',
+  -- Resolve the JVM used to run JDTLS via java_home. Target is JDK 25 (current LTS);
+  -- floor is 25+ to keep both machines on the same major version. Avoids hardcoding a
+  -- path so the config works across machines (OpenJDK 25 here, Zulu 25 at work).
+  -- Note: this is the JVM running JDTLS itself, not the project's target JDK.
+  jdtls_java,
   '-Declipse.application=org.eclipse.jdt.ls.core.id1',
   '-Dosgi.bundles.defaultStartLevel=4',
   '-Declipse.product=org.eclipse.jdt.ls.core.product',

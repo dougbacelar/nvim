@@ -36,7 +36,7 @@
 
 ## Should Do (cleanup / future-proofing)
 
-- [ ] **Investigate upgrading the JDK used to run JDTLS** — currently hardcoded to
+- [x] **Investigate upgrading the JDK used to run JDTLS** — currently hardcoded to
       `openjdk@23` in `ftplugin/java.lua`. Check the minimum JDK version required by the
       installed JDTLS release and whether a newer openjdk formula (e.g. `openjdk@24`) is
       available via Homebrew. Update the path if a newer version is suitable.
