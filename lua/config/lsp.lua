@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    vim.keymap.set('i', '<C-Space>', vim.lsp.completion.trigger, { buffer = event.buf })
+    vim.keymap.set('i', '<C-Space>', vim.lsp.completion.get, { buffer = event.buf })
   end,
 })
 

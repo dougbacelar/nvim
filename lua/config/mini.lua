@@ -47,7 +47,10 @@ end
 function M.setup_misc()
   require('mini.misc').setup()
   -- sets the workspace when you open a project file so file pickers work better
-  MiniMisc.setup_auto_root()
+  -- NOTE: setup_auto_root() registers a BufEnter autocmd that would revert the cwd
+  -- to the current buffer's project every time a buffer is entered, which fights the
+  -- project picker (<leader>fp). Instead, call find_root() once for the first buffer.
+  MiniMisc.find_root()
 end
 
 function M.setup_ai()
