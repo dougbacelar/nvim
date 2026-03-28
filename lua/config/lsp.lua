@@ -21,12 +21,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+    vim.keymap.set('i', '<C-Space>', vim.lsp.completion.trigger, { buffer = event.buf })
   end,
 })
-
--- Manually trigger LSP completion (replaces cmp's <C-Space>).
--- vim.lsp.completion.trigger only exists in Neovim 0.12+; use omnifunc on 0.11.
-vim.keymap.set('i', '<C-Space>', '<C-x><C-o>')
 
 -- Confirm with <CR> when popup is visible; otherwise insert a newline
 vim.keymap.set('i', '<CR>', function()
