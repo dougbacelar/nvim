@@ -3,13 +3,16 @@ set -e # exit immediately if anything returns a non-zero status
 
 brew update
 
+# Neovim 0.12 HEAD — install separately because --HEAD can't go in the packages array.
+# TODO: replace with `brew install neovim` once 0.12 releases stable.
+brew install neovim --HEAD
+
 # list of packages to install via homebrew.
 packages=(
   # window management
   asmvik/formulae/yabai           # window manager for macos
   skhd                            # shortcut daemon for macos
   # ide
-  neovim
   tree-sitter-cli                 # CLI for compiling tree-sitter parsers (core nvim-treesitter requirement)
   # lsps
   typescript-language-server      # aka ts_ls. LSP implementation for TypeScript wrapping tsserver.
@@ -21,7 +24,7 @@ packages=(
   prettierd                       # javascript's formatter, prettier as a daemon
   stylua                          # lua code formatter
   # tools
-  openjdk                         # install jdk for running jdtls
+  openjdk                         # JDK 25 — runs jdtls itself (ftplugin/java.lua: java_home -v 25+)
   fzf                             # add `source <(fzf --zsh)` to .zprofile
   sqlite3                         # sqlite CLI used by snacks.picker neovim plugin
   fd                              # quicker finder required for snacks.picker to search for projects

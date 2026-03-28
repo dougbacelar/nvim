@@ -23,16 +23,16 @@
 
 - [x] **Upgrade jdtls via Homebrew** — upgraded from `1.46.1` to `1.57.0`.
 
-- [ ] **Update `nvim-treesitter-textobjects` after upgrading** — the plugin does not use the
+- [x] **Update `nvim-treesitter-textobjects` after upgrading** — the plugin does not use the
       removed `all = true` option in `iter_matches()`, so that specific breaking change is a
       non-issue. However, it currently bundles a private copy of `vim.treesitter._range`
       (internal API, see `_range.lua`) with a TODO to replace it with the public `vim.Range`
       once 0.11 support is dropped. Run `:Lazy sync` after upgrading to get the updated version,
       then run `:checkhealth nvim-treesitter` to confirm text object queries still work.
 
-- [ ] **Run `:Lazy sync`** after upgrading Neovim to pull 0.12-compatible plugin versions.
+- [x] **Run `:Lazy sync`** after upgrading Neovim to pull 0.12-compatible plugin versions.
 
-- [ ] **Run `:checkhealth`** after upgrading and fix any reported issues.
+- [x] **Run `:checkhealth`** after upgrading and fix any reported issues.
 
 ## Should Do (cleanup / future-proofing)
 
@@ -57,10 +57,8 @@
       minimal (two sources: lsp + path), so this would be a clean swap and removes two plugins
       (`nvim-cmp`, `cmp-nvim-lsp`, `cmp-path`).
 
-- [ ] **Restore completion documentation preview** — after switching to native LSP completion,
-      JDTLS javadoc no longer appears formatted in the popup alongside the completion menu the way
-      it did with nvim-cmp. Native completion doesn't render markdown, so docs show as raw text
-      or not at all. Worth revisiting with a better completion solution.
+- [x] **Restore completion documentation preview** — fixed by upgrading to Neovim 0.12, which
+      renders Javadoc (and markdown docs in general) properly in the native completion popup.
 
 - [ ] **Evaluate `vim.pack`** *(blocked on Neovim 0.12 upgrade)* — the new built-in plugin
       manager. `lazy.nvim` continues to work and there is no pressure to switch, but worth
