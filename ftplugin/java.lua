@@ -3,63 +3,67 @@ local jdtls = require 'jdtls'
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
 
--- Needed for debugging
-local bundles = {
-  vim.fn.glob(vim.env.HOME .. '/dev/java-debug/extension/server/com.microsoft.java.debug.plugin-0.53.1.jar'),
-}
-
--- Needed for running/debugging unit tests
-vim.list_extend(bundles, vim.split(vim.fn.glob(vim.env.HOME .. '/dev/java-test/extension/server/*.jar', true), '\n'))
-
 local jdtls_prefix = vim.fn.trim(vim.fn.system 'brew --prefix jdtls')
+local launcher = vim.fn.glob(jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_*.jar', false, true)[1]
+if not launcher then
+  vim.notify('jdtls launcher jar not found under ' .. jdtls_prefix, vim.log.levels.ERROR)
+  return
+end
+local lombok_jar = vim.fn.glob(vim.env.HOME .. '/dev/lombok/lombok-*.jar', false, true)[1]
+local jdtls_java = vim.fn.trim(vim.fn.system '/usr/libexec/java_home -v 25+') .. '/bin/java'
+if not vim.uv.fs_stat(jdtls_java) then
+  vim.notify('No JDK 25+ found via /usr/libexec/java_home. JDTLS requires Java 25+.', vim.log.levels.ERROR)
+  return
+end
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
-local config = {
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  -- if failing to run LSP, try to run it manually e.g.
-  -- java \
-  -- -Declipse.application=org.eclipse.jdt.ls.core.id1 \
-  -- -Dosgi.bundles.defaultStartLevel=4 \
-  -- -Declipse.product=org.eclipse.jdt.ls.core.product \
-  -- -Dlog.protocol=true \
-  -- -Dlog.level=ALL \
-  -- -Xmx4g \
-  -- --add-modules=ALL-SYSTEM \
-  -- --add-opens java.base/java.util=ALL-UNNAMED \
-  -- --add-opens java.base/java.lang=ALL-UNNAMED \
-  -- -jar /opt/homebrew/opt/jdtls/libexec/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar \
-  -- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
-  -- -data ~/jdtls-workspace/test-files
-  cmd = {
-    -- use specific full path for reliability
-    -- do not change JAVA_HOME to avoid conflicts with work environment
-    -- make sure the version below is enough for running JDTLS!
-    '/opt/homebrew/opt/openjdk@23/bin/java',
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    '-Dosgi.bundles.defaultStartLevel=4',
-    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
-    -- download lombok from https://projectlombok.org/downloads/lombok.jar if needed and uncomment below
-    '-javaagent:'
-      .. vim.env.HOME
-      .. '/dev/lombok/lombok-1.18.38.jar',
-    '-Xmx4g',
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens',
-    'java.base/java.util=ALL-UNNAMED',
-    '--add-opens',
-    'java.base/java.lang=ALL-UNNAMED',
+-- Build cmd separately so we can conditionally insert the lombok javaagent without
+-- creating a nil hole in the array (which would truncate it at that index).
+-- cmd example:
+-- java \
+-- -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+-- -Dosgi.bundles.defaultStartLevel=4 \
+-- -Declipse.product=org.eclipse.jdt.ls.core.product \
+-- -Dlog.protocol=true \
+-- -Dlog.level=ALL \
+-- -Xmx4g \
+-- --add-modules=ALL-SYSTEM \
+-- --add-opens java.base/java.util=ALL-UNNAMED \
+-- --add-opens java.base/java.lang=ALL-UNNAMED \
+-- -jar /opt/homebrew/opt/jdtls/libexec/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar \
+-- -configuration /opt/homebrew/opt/jdtls/libexec/config_mac \
+-- -data ~/jdtls-workspace/test-files
+local cmd = {
+  -- Resolve the JVM used to run JDTLS via java_home. Target is JDK 25 (current LTS);
+  -- floor is 25+ to keep both machines on the same major version. Avoids hardcoding a
+  -- path so the config works across machines (OpenJDK 25 here, Zulu 25 at work).
+  -- Note: this is the JVM running JDTLS itself, not the project's target JDK.
+  jdtls_java,
+  '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+  '-Dosgi.bundles.defaultStartLevel=4',
+  '-Declipse.product=org.eclipse.jdt.ls.core.product',
+  '-Dlog.protocol=true',
+  '-Dlog.level=ALL',
+  '-Xmx4g',
+  '--add-modules=ALL-SYSTEM',
+  '--add-opens',
+  'java.base/java.util=ALL-UNNAMED',
+  '--add-opens',
+  'java.base/java.lang=ALL-UNNAMED',
 
-    -- Eclipse jdtls location
-    '-jar',
-    jdtls_prefix .. '/libexec/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
-    -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
-    '-configuration',
-    jdtls_prefix .. '/libexec/config_mac',
-    '-data',
-    workspace_dir,
-  },
+  -- Eclipse jdtls location
+  '-jar',
+  launcher,
+  -- TODO Update this to point to the correct jdtls subdirectory for your OS (config_linux, config_mac, config_win, etc)
+  '-configuration',
+  jdtls_prefix .. '/libexec/config_mac',
+  '-data',
+  workspace_dir,
+}
+if lombok_jar then
+  table.insert(cmd, 7, '-javaagent:' .. lombok_jar)
+end
+local config = {
+  cmd = cmd,
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
@@ -140,7 +144,6 @@ local config = {
         'org',
       },
     },
-    extendedClientCapabilities = jdtls.extendedClientCapabilities,
     sources = {
       organizeImports = {
         starThreshold = 9999,
@@ -155,24 +158,14 @@ local config = {
     },
   },
   -- Needed for auto-completion with method signatures and placeholders
-  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  capabilities = vim.lsp.protocol.make_client_capabilities(),
   flags = {
     allow_incremental_sync = true,
   },
   init_options = {
-    -- References the bundles defined above to support Debugging and Unit Testing
-    bundles = bundles,
+    extendedClientCapabilities = jdtls.extendedClientCapabilities,
   },
 }
-
--- Needed for debugging
-config['on_attach'] = function(client, bufnr)
-  jdtls.setup_dap {
-    hotcodereplace = 'auto',
-    config_overrides = {},
-  }
-  require('jdtls.dap').setup_dap_main_class_configs()
-end
 
 -- This starts a new client & server, or attaches to an existing client & server based on the `root_dir`.
 jdtls.start_or_attach(config)

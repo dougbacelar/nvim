@@ -3,13 +3,16 @@ set -e # exit immediately if anything returns a non-zero status
 
 brew update
 
+# Neovim 0.12 HEAD — install separately because --HEAD can't go in the packages array.
+# TODO: replace with `brew install neovim` once 0.12 releases stable.
+brew install neovim --HEAD
+
 # list of packages to install via homebrew.
 packages=(
   # window management
   asmvik/formulae/yabai           # window manager for macos
   skhd                            # shortcut daemon for macos
   # ide
-  neovim
   tree-sitter-cli                 # CLI for compiling tree-sitter parsers (core nvim-treesitter requirement)
   # lsps
   typescript-language-server      # aka ts_ls. LSP implementation for TypeScript wrapping tsserver.
@@ -21,7 +24,7 @@ packages=(
   prettierd                       # javascript's formatter, prettier as a daemon
   stylua                          # lua code formatter
   # tools
-  openjdk                         # install jdk for running jdtls
+  openjdk                         # JDK 25 — runs jdtls itself (ftplugin/java.lua: java_home -v 25+)
   fzf                             # add `source <(fzf --zsh)` to .zprofile
   sqlite3                         # sqlite CLI used by snacks.picker neovim plugin
   fd                              # quicker finder required for snacks.picker to search for projects
@@ -65,23 +68,8 @@ install_vsix() {
   fi
 }
 
-# --- vscode-java-test installation ---
-# https://github.com/microsoft/vscode-java-test
-# based on: https://github.com/mason-org/mason-registry/blob/31d2e44bd36de98e8d5f5b9895a1f314e3b40a5b/packages/java-test/package.yaml#L2
-# ---
-java_test_version="0.43.0"
-java_test_url="https://open-vsx.org/api/vscjava/vscode-java-test/${java_test_version}/file/vscjava.vscode-java-test-${java_test_version}.vsix"
-install_vsix "java-test" "$java_test_url"
-
-# --- vscode-java-debug installation ---
-# https://github.com/microsoft/java-debug
-# based on: https://github.com/mason-org/mason-registry/blob/31d2e44bd36de98e8d5f5b9895a1f314e3b40a5b/packages/java-debug-adapter/package.yaml
-java_debug_version="0.58.1"
-java_debug_url="https://open-vsx.org/api/vscjava/vscode-java-debug/${java_debug_version}/file/vscjava.vscode-java-debug-${java_debug_version}.vsix"
-install_vsix "java-debug" "$java_debug_url"
-
 # --- Lombok installation ---
-lombok_version="1.18.38"
+lombok_version="1.18.44"
 lombok_jar="lombok-${lombok_version}.jar"
 lombok_dir="$dev_dir/lombok"
 lombok_url="https://projectlombok.org/downloads/$lombok_jar"

@@ -49,5 +49,9 @@ vim.opt.expandtab = true
 -- expands all folds by default
 vim.opt.foldlevelstart = 99
 
+-- completion options
+-- `popup` shows LSP documentation (including formatted Javadoc) alongside the completion menu.
+vim.o.completeopt = 'menu,menuone,noinsert,popup'
+
 -- diagnostic options
-vim.diagnostic.config { jump = { float = true }, virtual_text = { current_line = true } }
+vim.diagnostic.config { jump = { on_jump = function() vim.diagnostic.open_float() end }, virtual_text = { current_line = true } }
