@@ -57,6 +57,11 @@
       minimal (two sources: lsp + path), so this would be a clean swap and removes two plugins
       (`nvim-cmp`, `cmp-nvim-lsp`, `cmp-path`).
 
+- [ ] **Restore completion documentation preview** — after switching to native LSP completion,
+      JDTLS javadoc no longer appears formatted in the popup alongside the completion menu the way
+      it did with nvim-cmp. Native completion doesn't render markdown, so docs show as raw text
+      or not at all. Worth revisiting with a better completion solution.
+
 - [ ] **Evaluate `vim.pack`** *(blocked on Neovim 0.12 upgrade)* — the new built-in plugin
       manager. `lazy.nvim` continues to work and there is no pressure to switch, but worth
       evaluating for a simpler setup long-term.

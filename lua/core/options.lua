@@ -50,7 +50,9 @@ vim.opt.expandtab = true
 vim.opt.foldlevelstart = 99
 
 -- completion options
-vim.o.completeopt = 'menu,menuone,noinsert'
+-- `popup` shows LSP documentation alongside the menu, but native completion doesn't render
+-- markdown, so JDTLS javadoc appears as raw text rather than formatted as it was with nvim-cmp.
+vim.o.completeopt = 'menu,menuone,noinsert,popup'
 
 -- diagnostic options
 vim.diagnostic.config { jump = { float = true }, virtual_text = { current_line = true } }
