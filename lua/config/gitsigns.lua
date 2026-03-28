@@ -41,3 +41,10 @@ require('gitsigns').setup {
     map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = 'Toggle git show deleted' })
   end,
 }
+
+vim.keymap.set({ 'n', 'x', 'o' }, ']h', function()
+  require('gitsigns').nav_hunk 'next'
+end, { desc = 'Next Hunk' })
+vim.keymap.set({ 'n', 'x', 'o' }, '[h', function()
+  require('gitsigns').nav_hunk 'prev'
+end, { desc = 'Previous Hunk' })

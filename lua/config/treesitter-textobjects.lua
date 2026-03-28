@@ -161,12 +161,3 @@ vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat.builtin_f_expr, { expr = true }
 vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat.builtin_F_expr, { expr = true })
 vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat.builtin_t_expr, { expr = true })
 vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat.builtin_T_expr, { expr = true })
-
--- Gitsigns hunk navigation (not repeatable in new API, but still functional)
-local gs = require 'gitsigns'
-vim.keymap.set({ 'n', 'x', 'o' }, ']h', function()
-  gs.nav_hunk 'next'
-end, { desc = 'Next Hunk' })
-vim.keymap.set({ 'n', 'x', 'o' }, '[h', function()
-  gs.nav_hunk 'prev'
-end, { desc = 'Previous Hunk' })
