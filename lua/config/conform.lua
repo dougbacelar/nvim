@@ -20,7 +20,6 @@ conform.setup {
     markdown = { 'prettierd', 'prettier', stop_after_first = true },
     graphql = { 'prettierd', 'prettier', stop_after_first = true },
     sql = { 'sql_formatter' },
-    java = { lsp_format = 'prefer' },
   },
   formatters = {
     prettierd = {

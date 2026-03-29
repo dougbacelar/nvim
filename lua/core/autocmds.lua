@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost' }, {
       -- only way to get format working with auto save is having it in the same autocmd, consider removing it later
       require('conform').format {
         bufnr = args.buf,
-        lsp_fallback = true,
+        lsp_format = 'fallback',
         async = false,
         timeout_ms = 500,
       }
