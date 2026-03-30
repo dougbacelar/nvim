@@ -74,7 +74,9 @@ vim.keymap.set('n', '<leader>fF', function()
 end, { desc = 'Find Files' })
 vim.keymap.set('n', '<leader>ff', Snacks.picker.git_files, { desc = 'Find Git Files' }) -- consider changing to files if really fast
 vim.keymap.set({ 'n', 'v' }, '<leader>fw', Snacks.picker.grep_word, { desc = 'Find current Word' })
-vim.keymap.set('n', '<leader>fl', Snacks.picker.grep, { desc = 'Find Live Grep' })
+vim.keymap.set('n', '<leader>fl', function()
+  Snacks.picker.grep { hidden = true }
+end, { desc = 'Find Live Grep' })
 vim.keymap.set('n', '<leader>/', Snacks.picker.search_history, { desc = 'Find Search History' })
 vim.keymap.set('n', '<leader>fd', Snacks.picker.diagnostics, { desc = 'Find Diagnostics' })
 vim.keymap.set('n', '<leader>fD', Snacks.picker.diagnostics_buffer, { desc = 'Find Diagnostics for Buffer' })
