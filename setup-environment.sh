@@ -21,7 +21,7 @@ packages=(
   lua-language-server             # language server for lua (used for lua_ls)
   jdtls                           # java language server (eclipse.jdt.ls)
   # linters and formatters
-  prettierd                       # javascript's formatter, prettier as a daemon
+  prettier                        # javascript code formatter
   stylua                          # lua code formatter
   # tools
   openjdk                         # JDK 25 — runs jdtls itself (ftplugin/java.lua: java_home -v 25+)

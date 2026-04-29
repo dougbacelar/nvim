@@ -9,20 +9,20 @@ conform.setup {
     -- conform will run multiple formatters sequentially
     python = { 'isort', 'black' },
     -- use a sub-list to run only the first available formatter
-    javascript = { 'prettierd', 'prettier', stop_after_first = true },
-    typescript = { 'prettierd', 'prettier', stop_after_first = true },
-    javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-    typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-    css = { 'prettierd', 'prettier', stop_after_first = true },
-    html = { 'prettierd', 'prettier', stop_after_first = true },
-    json = { 'prettierd', 'prettier', stop_after_first = true },
-    yaml = { 'prettierd', 'prettier', stop_after_first = true },
-    markdown = { 'prettierd', 'prettier', stop_after_first = true },
-    graphql = { 'prettierd', 'prettier', stop_after_first = true },
+    javascript = { 'prettier' },
+    typescript = { 'prettier' },
+    javascriptreact = { 'prettier' },
+    typescriptreact = { 'prettier' },
+    css = { 'prettier' },
+    html = { 'prettier' },
+    json = { 'prettier' },
+    yaml = { 'prettier' },
+    markdown = { 'prettier' },
+    graphql = { 'prettier' },
     sql = { 'sql_formatter' },
   },
   formatters = {
-    prettierd = {
+    prettier = {
       timeout_ms = 10000, -- for dealing with big json files, etc
     },
   },
