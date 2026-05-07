@@ -51,6 +51,14 @@ function M.setup_misc()
   -- to the current buffer's project every time a buffer is entered, which fights the
   -- project picker (<leader>fp). Instead, call find_root() once for the first buffer.
   MiniMisc.find_root()
+  -- If launched with a path outside of the inherited cwd and `find_root` didn't
+  -- pick up a project root, fall back to the file/dir itself so cwd is sensible
+  -- e.g. `nvim ~/.config/nvim/` from `~/dev/test/`.
+  local fname = vim.api.nvim_buf_get_name(0)
+  if fname ~= '' and not vim.startswith(fname, vim.fn.getcwd() .. '/') then
+    local target = vim.fn.isdirectory(fname) == 1 and fname or vim.fs.dirname(fname)
+    vim.cmd.cd(target)
+  end
 end
 
 function M.setup_ai()
