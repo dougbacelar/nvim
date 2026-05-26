@@ -23,6 +23,7 @@ packages=(
   # linters and formatters
   prettier                        # javascript code formatter
   stylua                          # lua code formatter
+  pgformatter                     # sql code formatter (pg_format)
   # tools
   openjdk                         # JDK 25 — runs jdtls itself (ftplugin/java.lua: java_home -v 25+)
   fzf                             # add `source <(fzf --zsh)` to .zprofile

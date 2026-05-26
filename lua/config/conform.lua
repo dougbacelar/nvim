@@ -19,7 +19,7 @@ conform.setup {
     yaml = { 'prettier' },
     markdown = { 'prettier' },
     graphql = { 'prettier' },
-    sql = { 'sql_formatter' },
+    sql = { 'pg_format' },
   },
   formatters = {
     prettier = {
