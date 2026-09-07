@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost' }, {
   desc = 'auto save file on buffer leave or focus lost',
   group = autosave_group,
   callback = function(args)
-    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand '%' ~= '' and vim.bo.buftype == '' then
+    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand '%' ~= '' and vim.bo.buftype == '' and vim.bo.filetype ~= 'markdown' then
       -- only way to get format working with auto save is having it in the same autocmd, consider removing it later
       require('conform').format {
         bufnr = args.buf,
